@@ -1,0 +1,166 @@
+Note: In the shell, it is possible to complete certain keywords (e.g., mkdir, nano) or file/directory names using the "Tab" key (similar to some programming environments).
+
+Adding Java to PATH:
+
+    Control Panel > System > Advanced System Settings > Environment Variables
+    System Variables > Add Java SDK path with a chosen name (e.g., JTerminal)
+    System Variables > Path > Add %JTerminal%\bin
+================================================================================	
+VS Code:
+    code . - Launch VS Code
+    code *fileName*
+================================================================================	
+DOS:
+    type - display text
+    dir /w wide
+    dir /p prompt
+    dir /ad all directories
+    exit or shutdown
+================================================================================	
+CMD:
+    start *file.txt* ; open the text file
+    start notepad++ *file.txt* ; open the text file with Notepad++
+    curl *web address* ; receive the HTML page of the respective address
+    ; curl is also available in BASH
+    curl -o *outFile* *web address* ; write HTML code to "outFile"
+    ; alternatively, in BASH: curl *web address* >> *outFile*
+    curl -o *downloadedFile* *download URL* ; download files other than HTML
+    curl -O *download URL* ; download the file with its original name
+    curl -L *download URL* ; download the file in case of redirects
+    winget install --id Cloudflare.cloudflared ; for the server
+    cloudflared access ssh-config -hostname ssh.rudylinuxserver.com ; access Sado server
+    ping *IP address*
+    ipconfig ; view IP address (see ifconfig in BASH)
+    set ; display system variables
+    - set > file
+    setx VAR value ; set system variable at user level
+    setx /M VAR value ; set system variable at system level
+    ren ; rename
+    rmdir /s /q ; remove directory
+    del ; remove file
+    copy SOURCE DESTINATION ; copy file
+    move SOURCE DESTINATION ; move file
+    reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "FontName (TrueType)" /t REG_SZ /d %FONT% /f ; install font
+        Note: the font must first be moved to the Fonts directory (move %FONT_DIR%\%FONT% %WINDIR%\Fonts)
+    tar -xf archive.zip ; unzip file
+================================================================================	
+BASH:
+    nano ; text editor; Ctrl+x to exit
+    mv *file* *directory*
+    mv *file1* *file2* ; rename files/directories
+    ping *IP address*
+    ifconfig ; view IP address (similar to ipconfig in CMD)
+    . ; indicates the current directory
+        e.g., ./script.sh, code ., start .
+    top ; view running processes
+    chmod *mode* *file_name* ; change file permissions
+        e.g., chmod +u task.sh ; allow task.sh to run as an executable
+    crontab ; manage processes to run at regular intervals
+        e.g., crontab -e ; edit
+        crontab -l ; view cronjobs
+    q ; exit from a list (pager) such as the one resulting from log
+    curl ; see commands from CMD
+    gzip -d *file.gz* ; unzip *.gz archive
+================================================================================	
+Git:
+    branch: pointer
+    commit: project snapshot
+    git init
+    git add
+    git commit -m ' '
+    git pull
+    git remote add origin ' '
+    git push -f ; force code upload
+    git config --global user.email
+    git config --global user.name
+    git branch display branches
+    git branch *new branch name* ; create a new branch
+    git branch -d *branch name* ; delete a specified branch
+    git checkout *branch name* ; switch to specified branch
+    git checkout -b *branch name* ; create a new branch from main and switch to it
+        practically, it executes: git branch *branch name*
+        git checkout *branch name*
+    git merge *branch* merge the current branch with branch
+    git gui ; launch graphical interface
+    gitk ; launch tree-like graphical interface
+    git branch *new branch name*
+    git checkout *branch name*
+    git checkout -b *new branch name*
+    git branch --set-upstream-to=origin/<*branch name*>
+    git status ; file status
+    git reset --hard head~number ; to revert to a previous state by number of steps
+    git reflog view commits regardless of deletions
+    git reset --hard commit_ID ; jump to that commit
+    git log ; to view commits
+    git rm *file* ; remove from .git and memory
+    git rm *file* --cached ; remove from .git, but NOT from memory
+    git diff ; view differences within a workspace
+    git difftool ; view differences using a vim variant
+    git log --all --decorate --oneline --graph ; log the branches visually on the terminal
+            also called git adog (se online forums for further settings)
+================================================================================	
+Node Package Manager:
+    npx create-react-app *directory_name* //npx = Node Package Execute
+    npm init -y //initialize simple projects
+    npm install -g nodemon //for restarting the server
+    npm start //start local server
+    npm run build
+================================================================================
+Chocolatey:
+
+Note: Installation and uninstallation require administrator mode (like sudo in Linux)
+
+    Installing Chocolatey:
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+    choco find *package_name*
+    choco list ; display installed packages
+    choco install *package name*
+    choco uninstall *package_name*
+================================================================================
+GCC:
+    gcc source.c ; produce an executable file
+    gcc -E source.c ; generate file from the preprocessor
+    gcc -S source.c ; create assembly language source code
+    gcc -c source.c ; generate only the object file, not the executable
+    gcc source.c -o *executable_file_name* ; generate the executable file with the chosen name
+    gcc source.c -I*header_file_path* ; include *.h files
+    gcc source.c --coverage ; generate files for code coverage (ccov)
+    gcov ; generate code coverage report
+================================================================================
+Python:
+    python - the language interpreter
+    py - launcher used by Windows to launch the newest interpreter
+    pip - Python module used to manage packages for different Python versions
+    where python # display installed Python versions
+    py -2 run the latest Python 2.x version
+    python -m *module_name* run Python module
+        e.g., python -m pip list
+
+    dir(object) # display methods and members
+    help() # display documentation
+    help(object) # display object documentation
+    pip list # display installed modules
+    pip show *module_name* # display information (including path on the computer) about the module
+    python -m venv *venv_directory* # create a venv in the specified directory
+    python -V # display current version
+    pip -V # display current version
+    python -m pip install *package_name* # call pip using the current Python version
+    pip freeze > requirements.txt # generate a file for the required modules (ideally after creating a venv)
+    pip install -r requirements.txt # install necessary modules (for the user)
+================================================================================
+Java:
+    javac program.java
+    java program
+================================================================================
+Docker:
+    docker ps ; display containers
+    docker build -t *tagName* *location* ; create image
+    `docker run id ; run container from image
+    docker image ls ; display images
+================================================================================
+Act:
+
+    act -l ; list all available job in the repo
+    act -graph ; visually list all available job in the repo
+    act -j *job_name* ; run the specified job locally using a Docker container
+================================================================================
