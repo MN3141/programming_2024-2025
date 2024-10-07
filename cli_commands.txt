@@ -149,8 +149,9 @@ Python:
     pip install -r requirements.txt # install necessary modules (for the user)
 ================================================================================
 Java:
-    javac program.java
-    java program
+    javac program.java ; compile Java code
+    java program ; run Java application
+	javadoc program.java ; generate documentation based on existing comments
 ================================================================================
 Docker:
     docker ps ; display containers
