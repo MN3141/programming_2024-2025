@@ -1,0 +1,13 @@
+@startuml Grammar class
+
+    class Grammar{
+        nonTerminalSymbol:String
+        terminalSymbol:String
+        startSymbol:String 
+        production[]:Production
+        vocabulary[]:String  
+
+        +Grammar(nonTerminalSymbol:String,terminalSymbol:String,startSymbol:String,production[]:Production)
+        +generateVocabulary(wordSize:int)
+    }
+@enduml
