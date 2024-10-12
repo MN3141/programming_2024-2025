@@ -152,6 +152,9 @@ Java:
     javac program.java ; compile Java code
     java program ; run Java application
 	javadoc program.java ; generate documentation based on existing comments
+	javac -g program.java ; compile Java code for debugging
+	jdb program ; debug Java code 
+		>help ; list all of the available jdb commands
 ================================================================================
 Docker:
     docker ps ; display containers
