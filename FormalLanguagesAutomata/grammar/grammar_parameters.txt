@@ -1,0 +1,8 @@
+E,T,F,G,H
+a,+,*,(,)
+E>TG
+G>+TG|~
+T>FH
+H>*FH|~
+F>a|(E)
+E
