@@ -1,13 +1,18 @@
 @startuml Grammar class
 
     class Grammar{
-        nonTerminalSymbol:String
-        terminalSymbol:String
-        startSymbol:String 
-        production[]:Production
-        vocabulary[]:String  
 
-        +Grammar(nonTerminalSymbol:String,terminalSymbol:String,startSymbol:String,production[]:Production)
-        +generateVocabulary(wordSize:int)
+        -nonTerminalSymbol:ArrayList<String>
+        -terminalSymbol:ArrayList<String>
+        -startSymbol:String 
+        -production:ArrayList<Production>  
+
+        +Grammar(nonTerminalSymbol:ArrayList<String>,terminalSymbol:ArrayList<String>,startSymbol:String,production:ArrayList<Production> )
+        +getNonTerminalSymbols():ArrayList<String>
+        +getTerminalSymbols():ArrayList<String>
+        +getStartSymbol():String
+        +getProductions():ArrayList<Production>
+        -isTerminal(string:String):boolean
+        +leftMostDerivation(vocabularySize:int,maxWordSize:int):ArrayList<String>
     }
 @enduml

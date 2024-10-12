@@ -1,10 +1,14 @@
 @startuml Production class
 
     class Production{
-        inputSymbol:String 
-        output[]:String 
+        
+        -inputSymbol:String 
+        -output:ArrayList<String> 
 
-        +Production()
-        +applyProduction(symbol:String):void
+        +Production(inputSymbol:String,ouput:ArrayList<String>)
+        +getInputSymbol():String
+        +getOutput():ArrayList<String>
+        +applyRule(symbol:String):String
+
     }
 @enduml

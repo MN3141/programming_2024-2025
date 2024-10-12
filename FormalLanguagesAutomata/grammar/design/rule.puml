@@ -1,0 +1,10 @@
+@startuml Production class
+
+    class Production{
+        inputSymbol:String 
+        output[]:String 
+
+        +Production()
+        +applyProduction(symbol:String):void
+    }
+@enduml
