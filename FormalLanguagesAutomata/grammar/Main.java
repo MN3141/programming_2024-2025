@@ -53,7 +53,7 @@ public class Main {
     public static void main(String[] args) {
         
         Grammar g2=readInput("grammar_parameters.txt");
-        ArrayList<String> producedVocabulary=g2.leftMostDerivation(100, 100);
+        ArrayList<String> producedVocabulary=g2.leftMostDerivation(4, 100);
 
         for(String word:producedVocabulary)
         {

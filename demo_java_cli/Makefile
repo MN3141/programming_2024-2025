@@ -10,3 +10,6 @@ all:
 clean:
 #clean Java bytecode
 	rm $(LOGIC_DIR)/*.class $(MAIN_DIR)/*.class 
+
+document:
+	javadoc
