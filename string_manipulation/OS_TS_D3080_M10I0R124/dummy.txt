@@ -1,0 +1,3 @@
+C:/tools/OS_TS_D3080_M10I0R124/temp
+C:/tools/OS_TS_D3080_M10I0R124/readme.pdf
+C:/tools/OS_TS_D3080_M10I0R124/workspace
