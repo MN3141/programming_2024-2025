@@ -122,6 +122,8 @@ GCC:
     gcc -E source.c ; generate file from the preprocessor
     gcc -S source.c ; create assembly language source code
     gcc -c source.c ; generate only the object file, not the executable
+    gcc -Wall ;print all warnings
+    gcc -fdiagnostics-format=jsonfile 
     gcc source.c -o *executable_file_name* ; generate the executable file with the chosen name
     gcc source.c -I*header_file_path* ; include *.h files
     gcc source.c --coverage ; generate files for code coverage (ccov)
