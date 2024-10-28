@@ -80,9 +80,10 @@ public class Grammar{
                     if(!production.applyRule(tempSymbol).equals("-1")){
 
                         StringBuilder sb=new StringBuilder(word);
+                        sb.deleteCharAt(symbolIndex);//delete the non terminal symbol
                         sb.insert(symbolIndex, production.applyRule(tempSymbol));
                         word=sb.toString();
-
+                        word=word.replace(tempSymbol, "");
                     }
                 }
                 if(this.isTerminal(word)==true)
