@@ -134,47 +134,66 @@ INSERT INTO nota (id_nota, id_student, id_curs, nota, data_examen) VALUES
 (19, 1010, 6, 4, '2024-06-05'),    -- Student 1010, Course 6, Grade 4
 (20, 1010, 7, 3, '2024-06-06');    -- Student 1010, Course 7, Grade 3
 
-SELECT denumire, id_facultate
-FROM facultate
-WHERE id_facultate % 2 = 1;
--- Afișează denumirea și id_facultate pentru facultățile care au id_facultate
--- impar.
+-- Query alias
+select avg(nota) as media_note from nota
 
-SELECT nationalitate, nume
-FROM persoana
-WHERE nume LIKE '%a%';
--- Afișează naționalitatea și numele persoanelor care au in componenta numelui
--- litera “a”.
 
-SELECT grupa
-FROM student
-WHERE bursa IS NOT NULL AND semestru = 2;
--- Afișează grupa studenților care au bursa și sunt în semestrul 2.
+-- Afișați pentru fiecare notă din tabelul nota timpul trecut de la acordarea notei până în prezent
+SELECT DATEDIFF(CURDATE(), data_examen) AS zile_trecute
+FROM nota;
 
-SELECT nume
-FROM persoana
-ORDER BY nume ASC;
--- Afișează lista tuturor numelor persoanelor, ordonate în ordine alfabetică.
+-- Afișați din tabelul persoană numele complet al studentului într-o singură coloană, și seria cu numărul de buletin în altă coloană.
+select concat(prenume," ",nume) as nume_intreg from persoana
 
-SELECT nume
-FROM persoana
-ORDER BY nume ASC
-LIMIT 10;
--- Afișează lista cu numele primelor 10 persoane, ordonate în ordine alfabetică
+-- Afișați din tabelul student numărul de studenți înmatriculați și numărul total
+-- de persoane înmatriculate. Acest exercițiu reflectă posibilitatea unei persoane
+-- de a fi student la mai multe facultăți simultan
 
-SELECT decan
-FROM facultate
-WHERE an_fondare BETWEEN 1900 AND 1995;
--- Afișează numele decanilor care conduc facultăți fondate între anii 1900,1995
+SELECT 
+    COUNT(*) AS numar_total_inmatriculari,           
+    COUNT(DISTINCT cnp) AS numar_total_persoane
+FROM 
+    student;
+    
+ SELECT * from student   
+ 
+ -- Afișează numele decanilor de facultate cu caractere mari : Ex: POPESCU.(Fără să modifici în baza de date)
+ 
+ SELECT upper(decan) as decan_upper from facultate;
+ 
+ -- Afișează CNP-ul, numele persoanei, luna nașterii (numeric, ex: 08), luna
+-- nașterii( text, ex: August) pentru toate persoanele. (Extrage luna nasterii din CNP.
 
-INSERT INTO materie (id_materie, id_specializare, denumire, an_de_studiu, semestru, profesor)
-VALUES (12, 1, 'Etica', 2024, 1, 'Prof. Cosma Doe');
--- Adaugă în tabela materie o înregistrare cu materia: Etica.
+SELECT 
+    cnp,
+    nume,
+    prenume,
+    SUBSTRING(cnp, 3, 2) AS luna_nasterii_numerica,
+    CASE SUBSTRING(cnp, 3, 2)
+        WHEN '01' THEN 'Ianuarie'
+        WHEN '02' THEN 'Februarie'
+        WHEN '03' THEN 'Martie'
+        WHEN '04' THEN 'Aprilie'
+        WHEN '05' THEN 'Mai'
+        WHEN '06' THEN 'Iunie'
+        WHEN '07' THEN 'Iulie'
+        WHEN '08' THEN 'August'
+        WHEN '09' THEN 'Septembrie'
+        WHEN '10' THEN 'Octombrie'
+        WHEN '11' THEN 'Noiembrie'
+        WHEN '12' THEN 'Decembrie'
+        ELSE 'Lună necunoscută'
+    END AS luna_nasterii_text
+FROM 
+    persoana;
+    
+-- Afișează în format ASCII numele profesorilor care au in componenta numelui litera ‘a’. (opțional)
+SELECT ASCII(profesor) FROM  materie 
+WHERE profesor LIKE '%a';
 
-DELETE FROM materie
-WHERE denumire LIKE '%tica%';
--- Șterge toate materiile care contin string-ul “tica”.
+-- Adaugă litera ‘x’ în fața numelui decanilor care conduc facultăți ce au denumirea formată din mai puțin de 5 caractere. (opțional)
+UPDATE facultate
+SET decan = CONCAT('x', decan)
+WHERE CHAR_LENGTH(denumire) < 5;
 
-SELECT *
-FROM specializare;
--- Afișează toate atributele pentru toate înregistrările din tabela specializare
+SELECT * from facultate;

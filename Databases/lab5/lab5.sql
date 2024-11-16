@@ -134,47 +134,44 @@ INSERT INTO nota (id_nota, id_student, id_curs, nota, data_examen) VALUES
 (19, 1010, 6, 4, '2024-06-05'),    -- Student 1010, Course 6, Grade 4
 (20, 1010, 7, 3, '2024-06-06');    -- Student 1010, Course 7, Grade 3
 
-SELECT denumire, id_facultate
+-- explain
+EXPLAIN 
+SELECT * from student;
+
+-- Enumerați toate facultățile și specializările în același set de rezultate. Afișați
+-- denumirea lor și valoarea cheii principale. Ordonați rezultatul într-o manieră
+-- alfabetică inversată în funcție de denumire.
+
+SELECT denumire AS Nume, id_facultate AS ID
 FROM facultate
-WHERE id_facultate % 2 = 1;
--- Afișează denumirea și id_facultate pentru facultățile care au id_facultate
--- impar.
+UNION
+SELECT denumire AS Nume, id_specializare AS ID
+FROM specializare
+ORDER BY Nume DESC;
 
-SELECT nationalitate, nume
+-- Afișați toate notele distincte din baza de date și numărul de studenți care au
+-- luat notele respective. ( Ex: 5 (nota), 200 (studenți) ). Formatați rezultatul astfel
+
+SELECT COUNT(id_student),nota
+FROM nota
+GROUP BY nota;
+-- ORDER BY nota DESC
+
+-- Identificați persoanele care fac parte din aceeași familie (au același nume și locuiesc la aceeași adresa. Grupați înregistrările din tabela persoane după
+-- nume și adresă. Afișați doar persoanele care locuiesc în București. Inserati în tabela persoana înregistrări relevante pentru exemplificarea corectă a
+-- scenariului. Formatați rezultatul astfel:
+
+INSERT INTO persoana (cnp, seria, nr, prenume, nume, adresa, nationalitate)
+VALUES
+('1980112233445', 'ABCD', 1234, 'Maria', 'Popescu', 'Strada Libertatii 10, Bucuresti', 'Romana'),
+('1990112233446', 'ABCD', 1235, 'Ion', 'Popescu', 'Strada Libertatii 10, Bucuresti', 'Romana'),
+('2000112233447', 'ABCD', 1236, 'Ana', 'Ionescu', 'Strada Victoriei 15, Bucuresti', 'Romana'),
+('2010112233448', 'ABCD', 1237, 'George', 'Ionescu', 'Strada Victoriei 15, Bucuresti', 'Romana'),
+('2020112233449', 'ABCD', 1238, 'Mihai', 'Dumitrescu', 'Strada Independentei 22, Bucuresti', 'Romana'),
+('2030112233450', 'ABCD', 1239, 'Elena', 'Popescu', 'Strada Libertatii 10, Bucuresti', 'Romana');
+
+SELECT nume, adresa, GROUP_CONCAT(prenume ORDER BY prenume SEPARATOR ', ') AS membri_familie
 FROM persoana
-WHERE nume LIKE '%a%';
--- Afișează naționalitatea și numele persoanelor care au in componenta numelui
--- litera “a”.
-
-SELECT grupa
-FROM student
-WHERE bursa IS NOT NULL AND semestru = 2;
--- Afișează grupa studenților care au bursa și sunt în semestrul 2.
-
-SELECT nume
-FROM persoana
-ORDER BY nume ASC;
--- Afișează lista tuturor numelor persoanelor, ordonate în ordine alfabetică.
-
-SELECT nume
-FROM persoana
-ORDER BY nume ASC
-LIMIT 10;
--- Afișează lista cu numele primelor 10 persoane, ordonate în ordine alfabetică
-
-SELECT decan
-FROM facultate
-WHERE an_fondare BETWEEN 1900 AND 1995;
--- Afișează numele decanilor care conduc facultăți fondate între anii 1900,1995
-
-INSERT INTO materie (id_materie, id_specializare, denumire, an_de_studiu, semestru, profesor)
-VALUES (12, 1, 'Etica', 2024, 1, 'Prof. Cosma Doe');
--- Adaugă în tabela materie o înregistrare cu materia: Etica.
-
-DELETE FROM materie
-WHERE denumire LIKE '%tica%';
--- Șterge toate materiile care contin string-ul “tica”.
-
-SELECT *
-FROM specializare;
--- Afișează toate atributele pentru toate înregistrările din tabela specializare
+WHERE adresa LIKE '%Bucuresti%'
+GROUP BY nume, adresa
+HAVING COUNT(*) > 1;
