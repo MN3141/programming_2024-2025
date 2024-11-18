@@ -10,7 +10,7 @@ public class Car {
     private Long id;
     private String licensePlate;
     private String parkingSport;
-    @ManyToOne private User user;
+    @ManyToOne public User user;
 
     public void setId(Long id) {
         this.id = id;
