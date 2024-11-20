@@ -1,0 +1,2 @@
+Alt+Enter:maximise DOSBox windos
+Ctrl+G in Dump:go to specific address in memory
