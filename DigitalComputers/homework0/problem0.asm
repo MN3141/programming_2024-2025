@@ -5,17 +5,13 @@
 
     word_digits db 1,2,3,4
     output_string db 5 dup(0) ;output string for screen
+
 .code
 
 fetch_word proc
 
-    ;fetches a word into AX from a fixed location
-    push DS;store DS register!
-    mov bx,0713h
-    mov ds,bx
-    mov bx,00FEh
-    mov ax,word ptr ds:[bx]
-    pop DS
+    ;fetches a word into AX from a fixed physical address
+    mov ax,[0713h]:[00FEh]
     ret
 
 fetch_word endp
@@ -54,18 +50,47 @@ convert_to_ascii proc
     ;converts the digits from AX into ASCII characters
     ;and stores them into an array
 
-    
+    ;Note:for this task we only need 4 bytes
+
+    mov CX,4
+    mov BX,CX
+CONVERT_LOOP:
+
+    mov dl,word_digits[bx]
+    cmp dl,9
+    jle DECIMAL
+
+    add dl,55
+    ;Note:
+    ;A=10,'A'=65
+    ;'A'-A=55
+    jmp CONTINUE
+DECIMAL:
+    add dl,'0'
+CONTINUE:
+    mov output_string[bx],dl
+    dec BX
+    loop CONVERT_LOOP
+
+    mov output_string[5],'$' ;terminator character
+    ret
 convert_to_ascii endp
+
+print_string proc
+    lea dx,output_string
+    mov ah,9h
+    int 21h
+    ret
+print_string endp
 
     start:
         mov ax,@data
         mov ds,ax
 
-        ;setup 0713h:00FEh location
-        mov BX,0FFh
-        mov word ptr 0713h:[00FEh],BX
         call fetch_word
         call get_digits
+        call convert_to_ascii
+        call print_string
 
         mov ah,4ch
 	    int 21h

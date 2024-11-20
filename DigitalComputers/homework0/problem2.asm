@@ -6,7 +6,7 @@
 .data ;data segment
 
     stop_key db 13 ;CR character
-    num db 2 dup(0)
+    num db 3 dup(0)
 
 .code
 read_num proc
@@ -32,6 +32,42 @@ read_num proc
     ret
 read_num endp
 
+shift_number proc
+    
+    ;get digits into AX,obtain numerical value and shift it
+
+    ;get digits
+    mov bl,10
+    mov al,num[0]
+    sub al,'0'
+    mul bl
+
+    mov ah,num[1]
+    sub ah,'0'
+    add al,ah
+
+    ;shift value
+    shr al,2
+
+    ret
+shift_number endp
+
+put_number proc
+
+    ;put digits from AX into an array
+
+    mov bl,10
+    div bl ;AL<-AL/10,AH<-AL%10
+
+    add ah,'0'
+    add al,'0'
+
+    mov num[0],ah
+    mov num[1],al
+
+    ret
+
+put_number endp
 print_num proc
     lea dx,num
     mov ah,9h
@@ -44,18 +80,9 @@ start:
     mov ds,ax
 
     call read_num
-
-    mov ah,num[0]
-    sub ah,'0'
-
-    mov al,num[1]
-    sub al,'0'
-
-    mov ch,10
-    mul ah,ch
-    add al,ah
-
-    ;call print_num
+    call shift_number
+    call put_number
+    call print_num
 
     mov ah,4ch
 	int 21h
