@@ -5,4 +5,5 @@ cd %project_name%
 del *.exe
 del *.lst
 del *.map
+del *.obj
 cd ..
