@@ -10,7 +10,7 @@ public class Car {
     private Long id;
     private String licensePlate;
     private String parkingSport;
-    @ManyToOne public User user;
+    @ManyToOne public User owner;
 
     public void setId(Long id) {
         this.id = id;
@@ -34,6 +34,9 @@ public class Car {
 
     public void setParkingSport(String parkingSport) {
         this.parkingSport = parkingSport;
+    }
+    public User getOwner() {
+        return owner;
     }
 
 }

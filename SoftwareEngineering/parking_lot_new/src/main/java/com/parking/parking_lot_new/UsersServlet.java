@@ -1,19 +1,22 @@
 package com.parking.parking_lot_new;
 
+import com.parking.parkinglot.common.CarDto;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet(name = "Cars", value = "/Cars")
-public class Cars extends HttpServlet {
+@WebServlet(name = "UsersServlet", value = "/UsersServlet")
+public class UsersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse
             response) throws ServletException, IOException {
-        request.setAttribute("numberOfFreeParkingSpots", 10);
-        request.setAttribute("activePage", "Cars");
-        request.getRequestDispatcher("/WEB-INF/pages/cars.jsp").forward(request, response);
+       // List<CarDto> cars = usersBean.findAllUsers();
+       // request.setAttribute("cars", users);
+        //request.setAttribute("numberOfFreeParkingSpots", 10);
+        //request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
     }
 
     @Override

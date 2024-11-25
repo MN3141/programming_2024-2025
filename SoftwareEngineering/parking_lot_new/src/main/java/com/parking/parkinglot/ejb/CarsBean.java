@@ -24,13 +24,13 @@ public class CarsBean {
 
         List<CarDto> carDtos = new ArrayList<CarDto>();
         for (Car car : cars) {
-            carDtos.add(new CarDto(car.getId(),car.getLicensePlate(),car.getParkingSport(),car.user.getUsername());
-);
+            carDtos.add(new CarDto(car.getId(), car.getLicensePlate(), car.getParkingSport(), car.owner.getUsername())
+            );
         }
         return carDtos;
     }
 
-    public List<CarDto> getCars() {
+    public List<CarDto> findAllCars() {
 
         LOG.info("findAllCars");
         try {
