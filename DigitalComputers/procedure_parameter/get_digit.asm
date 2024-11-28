@@ -6,7 +6,7 @@
 
     ;Get the digit from a word
     ;and index given as inputs
-    ;AX-word,BX,index
+    ;AX-word,BX-index
     get_digits PROC
         
         ;Note:
