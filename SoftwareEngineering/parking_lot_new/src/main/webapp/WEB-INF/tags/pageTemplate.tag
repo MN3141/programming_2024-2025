@@ -14,6 +14,7 @@
 <jsp:doBody/>
 </main>
 <jsp:include page="/WEB-INF/includes/footer.jsp" />
+<script src="${pageContext.request.contextPath}/scripts/form-validation.js"></script>
 <%--Insert specific code for the pages--%>
 </body>
 </html>

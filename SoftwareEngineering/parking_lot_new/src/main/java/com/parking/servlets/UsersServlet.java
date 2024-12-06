@@ -1,12 +1,10 @@
-package com.parking.parking_lot_new;
+package com.parking.servlets;
 
-import com.parking.parkinglot.common.CarDto;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet(name = "UsersServlet", value = "/UsersServlet")
 public class UsersServlet extends HttpServlet {
