@@ -9,7 +9,7 @@ public class Car {
     @Id
     private Long id;
     private String licensePlate;
-    private String parkingSport;
+    private String parkingSpot;
     @ManyToOne public User owner;
 
     public void setId(Long id) {
@@ -28,12 +28,12 @@ public class Car {
         this.licensePlate = licensePlate;
     }
 
-    public String getParkingSport() {
-        return parkingSport;
+    public String getParkingSpot() {
+        return parkingSpot;
     }
 
-    public void setParkingSport(String parkingSport) {
-        this.parkingSport = parkingSport;
+    public void setParkingSport(String parkingSpot) {
+        this.parkingSpot = parkingSpot;
     }
     public User getOwner() {
         return owner;

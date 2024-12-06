@@ -6,7 +6,6 @@ import jakarta.ejb.EJBException;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class CarsBean {
 
         List<CarDto> carDtos = new ArrayList<CarDto>();
         for (Car car : cars) {
-            carDtos.add(new CarDto(car.getId(), car.getLicensePlate(), car.getParkingSport(), car.owner.getUsername())
+            carDtos.add(new CarDto(car.getId(), car.getLicensePlate(), car.getParkingSpot(), car.owner.getUsername())
             );
         }
         return carDtos;
