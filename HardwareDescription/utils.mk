@@ -13,6 +13,3 @@ all:
 	ghdl -r $(test_bench) --vcd=$(circuit).vcd
 	rm *.cf
 	gtkwave $(circuit).vcd
-
-clean:
-	rm *.vcd

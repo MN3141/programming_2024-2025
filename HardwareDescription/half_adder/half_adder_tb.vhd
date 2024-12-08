@@ -2,17 +2,17 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-entity Half_Adder_TB is
-end Half_Adder_TB;
+entity half_adder_tb is
+end half_adder_tb;
 
-architecture Behavioral of Half_Adder_TB is
+architecture Behavioral of half_adder_tb is
     signal A     : STD_LOGIC := '0';
     signal B     : STD_LOGIC := '0';
     signal Sum   : STD_LOGIC;
     signal Carry : STD_LOGIC;
 
     -- Instantiate the Half Adder
-    component Half_Adder
+    component half_adder
         Port (
             A     : in  STD_LOGIC;
             B     : in  STD_LOGIC;
@@ -23,7 +23,7 @@ architecture Behavioral of Half_Adder_TB is
 
 begin
     -- Map the Half Adder to signals
-    uut: Half_Adder Port Map (
+    uut: half_adder Port Map (
         A => A,
         B => B,
         Sum => Sum,
