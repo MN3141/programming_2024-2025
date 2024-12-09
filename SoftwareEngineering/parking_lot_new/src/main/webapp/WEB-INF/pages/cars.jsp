@@ -1,9 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<t:pageTemplate pageTitle="Users">
+<t:pageTemplate pageTitle="Cars">
     <h1>Cars</h1>
-    <a href=${pageContext.request.contextPath}/AddCar" class="btn btn-primary
+    <a href="${pageContext.request.contextPath}/AddCar" class="btn btn-primary
         btn-lg">
         Add car
     </a>
