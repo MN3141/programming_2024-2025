@@ -1,8 +1,3 @@
-/*Implementați următoarele probleme folosind numai operatori pe biți, operatorul de însumare
-și tipurile de date primitive din Platform_Types.h (nu aveți voie să folosiți altfel de operatori,
-array-uri, structuri, etc.)*/
-
-#include <stdio.h>
 #include "homework1.h"
 
 uint8 CountBitsOf1(uint8 Number){
@@ -14,6 +9,7 @@ binar a unui număr primit ca parametru*/
     uint8 bits_count=0;
 
     for(int i=0;i<BITS_NUM;i++)
+        /*check each bit by shifting the mask*/
         bits_count+=(Number & (MASK<<i))!=0;
 
     return bits_count;
