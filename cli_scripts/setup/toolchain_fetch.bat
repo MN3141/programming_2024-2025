@@ -1,68 +1,86 @@
-:: Script for fetching needed tools for software development
-:: For the moment, the script is written with Windows OS in mind
+REM Script for fetching software development tools for Windows 64-bit machines
+::Note: Due to most installers having different flags (or none at all)
+::      this script shall only fetch them, not run them afterwards
 
 @echo off
+:: Delayed Expansion
+setlocal enabledelayedexpansion
 
-:: The tools path shall be changed according to local computer partitions
-:: Winrar is needed to be added as a path variable in order for this script to work
+echo Please run this script as administrator before proceeding further...
+echo Available partitions are C, D, E, F
 
-echo "Please run this script in administrator before proceeding further..."
+set partition=
+set tools_dir=
+set input_file=tools_links.txt
+:: Check file type
+set git_repo_suffix=.git
+set zip_suffix=.zip
+set exe_suffix=.exe
+set msi_suffix=.msi
 
-set TOOLS_DIR=C:\tools
-
-:: Check if the Tools directory already exists
-IF NOT EXIST %TOOLS_DIR% (
-  mkdir %TOOLS_DIR%
+:: Parse input partition
+for %%A in (%*) do (
+    if "%%A"=="C" set partition=C:\
+    if "%%A"=="D" set partition=D:\
+    if "%%A"=="E" set partition=E:\
+    if "%%A"=="F" set partition=F:\
 )
 
-:: Fetch Notepad++ 8.6.8
-echo "Fetching  Notepad++ 8.6.8..."
-set NPP_DIR=%TOOLS_DIR%\Notepad++
-mkdir %NPP_DIR%
+:: Check if partition exists
+IF NOT EXIST "!partition!" (
+    echo ERROR: Partition does not exist
+    :: Error exit code
+    exit /b 1
+)
 
-::curl -L https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.6.8/npp.8.6.8.portable.x64.zip --ssl-revoke-best-effort --output %NPP_DIR%\npp.zip
-::sometimes only the above version works
+set tools_dir=!partition!\tools
 
-curl https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.6.8/npp.8.6.8.portable.x64.zip --output %NPP_DIR%\npp.zip
-::winrar x -df %NPP_DIR%\npp.zip %NPP_DIR%
+IF NOT EXIST "!tools_dir!" (
+    echo Creating tools directory...
+    mkdir "!tools_dir!"
+)
 
-:: Fetch hex reader
-echo "Fetching Hex reader..."
-::https://mh-nexus.de/downloads/HxDPortableSetup.zip
+:: Loop through each line in the text file
+for /f "usebackq tokens=*" %%A in ("%input_file%") do (
+    :: Get the current line
+    set line=%%A
 
-:: Fetch documentation generator 
-echo "Fetching Doxygen..."
-::https://www.doxygen.nl/files/doxygen-1.12.0-setup.exe
+    :: The delimiter shall be ',' character
+    for /f "tokens=1,2 delims=," %%B in ("!line!") do (
+        :: Get tokens
+        set name=%%B
+        set link=%%C
 
-:: Fetch Git versioning system
-echo "Fetching Git..."
-:: Fetch Java JDK
+        :: Check file type
+        if /i "!link:~-4!"=="!git_repo_suffix!" (
+            :: Git repository
+            git clone "!link!" "!tools_dir!\!name!"
+        ) else (
+            echo Fetching !name!...
+            set fetched_tool_dir=!tools_dir!\!name!
+            set fetched_file=
 
-:: Fetch Cygwin terminal for running BASH scripts on Windows
-echo "Fetching Cygwin..."
-::https://www.cygwin.com/setup-x86_64.exe
+            mkdir "!fetched_tool_dir!"
 
-echo "Fetching Java JDK..."
-::https://corretto.aws/downloads/latest/amazon-corretto-17-x64-windows-jdk.msi
+            if /i "!link:~-4!"=="!zip_suffix!" (
+                :: Zip archive
+                set fetched_file=!name!_setup.zip
+            ) else if /i "!link:~-4!"=="!exe_suffix!" (
+                :: EXE file
+                set fetched_file=!name!_setup.exe
+            ) else if /i "!link:~-4!"=="!msi_suffix!" (
+                :: MSI file
+                set fetched_file=!name!_setup.msi
+            ) else (
+                set fetched_file=!name!_setup.exe
+            )
 
-:: Fetch Python
-echo "Fetching Python"
-::https://www.python.org/ftp/python/3.12.7/python-3.12.7-amd64.exe
+            if defined fetched_file (
+                curl -L "!link!" --ssl-revoke-best-effort --output "!fetched_tool_dir!\!fetched_file!"
+            )
+        )
+    )
+)
 
-:: Fetch MSYS2 for installing GCC/G++ and GNU tools
-echo "Fetching MSYS2..."
-::https://github.com/msys2/msys2-installer/releases/download/2024-07-27/msys2-x86_64-20240727.exe
-
-:: Fetch new PowerShell version for a better Windows Terminal experience
-::This step may be optional
-echo "Fetching PowerShell..."
-::https://github.com/PowerShell/PowerShell/releases/download/v7.4.5/PowerShell-7.4.5-win-x64.zip
-
-:: Fetch PlantUML for drawing different types of diagrams
-echo "Fetching PlantUML..."
-::https://github.com/plantuml/plantuml/releases/download/v1.2024.7/plantuml-1.2024.7.jar
-
-:: Fetch C unit testing framework
-echo "Fetching Unity framework..."
-::git clone https://github.com/ThrowTheSwitch/Unity.git
-
+:: End delayed expansion
+endlocal
