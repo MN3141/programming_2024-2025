@@ -7,8 +7,11 @@ Adding Java to PATH:
     System Variables > Path > Add %JTerminal%\bin
 ================================================================================	
 VS Code:
-    code . - Launch VS Code
+    code . ; Launch VS Code
     code *fileName*
+    code --list-extensions ; get the list of all installed extensions
+    code --list-extensions --show-versions ; get the list extensions with versions
+
 ================================================================================	
 DOS:
     type - display text
