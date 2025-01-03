@@ -1,0 +1,17 @@
+Winrar,https://www.win-rar.com/fileadmin/winrar-versions/winrar/winrar-x64-701.exe
+Notepad++,https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.6.8/npp.8.6.8.portable.x64.zip
+VSCode,https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user
+HexReader,https://mh-nexus.de/downloads/HxDPortableSetup.zip
+GitBash,https://github.com/git-for-windows/git/releases/download/v2.47.1.windows.1/Git-2.47.1-64-bit.exe
+MSYS2,https://github.com/msys2/msys2-installer/releases/download/2024-07-27/msys2-x86_64-20240727.exe
+Java,https://corretto.aws/downloads/latest/amazon-corretto-17-x64-windows-jdk.zip
+Python,https://www.python.org/ftp/python/3.13.1/python-3.13.1-amd64.exe
+VHDL_GHDL,http://ghdl.free.fr/ghdl-installer-0.29.1.exe
+VHDL_GTKWave,https://sourceforge.net/projects/gtkwave/files/gtkwave-3.3.90-bin-win64/gtkwave-3.3.90-bin-win64.zip
+DrawIO,https://github.com/jgraph/drawio-desktop/releases/download/v25.0.2/draw.io-25.0.2-windows-installer.exe
+RufusUSBTool,https://github.com/pbatard/rufus/releases/download/v4.6/rufus-4.6.exe
+VentoyUSBTool,https://sourceforge.net/projects/ventoy/files/v1.0.99/ventoy-1.0.99-windows.zip
+PCAnalysis,https://sourceforge.net/projects/hwinfo/files/Windows_Installer/hwi64_816.exe
+WindDirStat,https://github.com/windirstat/windirstat/releases/download/release/v2.1.1/WinDirStat-x64.msi
+Act_CICD,https://github.com/nektos/act.git
+UnityCTestFramework,https://github.com/ThrowTheSwitch/Unity.git
