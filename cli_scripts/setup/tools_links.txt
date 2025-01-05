@@ -15,3 +15,4 @@ PCAnalysis,https://sourceforge.net/projects/hwinfo/files/Windows_Installer/hwi64
 WindDirStat,https://github.com/windirstat/windirstat/releases/download/release/v2.1.1/WinDirStat-x64.msi
 Act_CICD,https://github.com/nektos/act/archive/refs/heads/master.zip
 UnityCTestFramework,https://github.com/ThrowTheSwitch/Unity/archive/refs/heads/master.zip
+Microsfot_VisualC++_Redistributable,https://aka.ms/vs/17/release/vc_redist.x64.exe
