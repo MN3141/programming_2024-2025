@@ -1,0 +1,5 @@
+Profiles command lines:
+    Git Bash:"C:/tools/GitBash/Git/bin/bash.exe" -i -l
+    MSYS2:C:/tools/MSYS2/msys2_shell.cmd -defterm -here -no-start -msys
+Terminal theme:
+    Check:https://github.com/atomcorp/themes

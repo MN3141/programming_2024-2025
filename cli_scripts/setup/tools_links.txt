@@ -13,5 +13,5 @@ RufusUSBTool,https://github.com/pbatard/rufus/releases/download/v4.6/rufus-4.6.e
 VentoyUSBTool,https://sourceforge.net/projects/ventoy/files/v1.0.99/ventoy-1.0.99-windows.zip
 PCAnalysis,https://sourceforge.net/projects/hwinfo/files/Windows_Installer/hwi64_816.exe
 WindDirStat,https://github.com/windirstat/windirstat/releases/download/release/v2.1.1/WinDirStat-x64.msi
-Act_CICD,https://github.com/nektos/act.git
-UnityCTestFramework,https://github.com/ThrowTheSwitch/Unity.git
+Act_CICD,https://github.com/nektos/act/archive/refs/heads/master.zip
+UnityCTestFramework,https://github.com/ThrowTheSwitch/Unity/archive/refs/heads/master.zip

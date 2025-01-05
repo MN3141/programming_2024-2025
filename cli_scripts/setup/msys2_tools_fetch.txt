@@ -1,0 +1,4 @@
+MinGW toolchain:pacman -S --needed base-devel mingw-w64-ucrt-x86_64-toolchain
+Make: pacman -S make
+      rename mingw-w64-x86_64-make to Make
+Add *MSYS2_path*/ucrt64/bin to Path variable
