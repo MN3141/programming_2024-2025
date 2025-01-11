@@ -14,6 +14,9 @@ import com.parking.parkinglot.common.UserDto;
 import com.parking.parkinglot.ejb.CarsBean;
 import com.parking.parkinglot.ejb.UserBean;
 
+@ServletSecurity(value = @HttpConstraint(rolesAllowed =
+{"WRITE_CARS"}))
+
 @WebServlet(name = "EditCar", value = "/EditCar")
 public class EditCarServlet extends HttpServlet {
 

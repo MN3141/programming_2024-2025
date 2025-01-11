@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
+@ServletSecurity(value = @HttpConstraint(rolesAllowed =
+{"WRITE_CARS"}))
+
 @WebServlet(name = "AddCar", value = "/AddCar")
 
 public class AddCarServlet extends HttpServlet {

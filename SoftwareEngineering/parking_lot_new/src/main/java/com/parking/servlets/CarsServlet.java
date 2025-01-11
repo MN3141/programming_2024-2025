@@ -11,6 +11,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import jakarta.annotation.security.DeclareRoles;
+
+@DeclareRoles({"READ_CARS", "WRITE_CARS"})
+@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"READ_CARS"}),
+        httpMethodConstraints = {@HttpMethodConstraint(value="POST", rolesAllowed = {"WRITE_CARS"})})
 
 @WebServlet(name = "Cars", value = "/Cars")
 public class CarsServlet extends HttpServlet {

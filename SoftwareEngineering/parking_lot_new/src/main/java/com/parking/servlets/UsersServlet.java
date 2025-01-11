@@ -11,6 +11,11 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
+import jakarta.annotation.security.DeclareRoles;
+
+@DeclareRoles({"READ_USERS", "WRITE_USERS", "INVOICING"})
+@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"READ_USERS"}),
+        httpMethodConstraints = {@HttpMethodConstraint(value="POST", rolesAllowed = {"WRITE_USERS", "INVOICING"})})
 
 @WebServlet(name = "UsersServlet", value = "/Users")
 public class UsersServlet extends HttpServlet {
