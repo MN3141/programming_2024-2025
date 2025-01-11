@@ -6,10 +6,11 @@ domain=domain1
 #Get the path of the project
 makefile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 project_path := $(dir $(makefile_path))
+project_path := $(shell echo $(project_path) | sed 's|/|\\\\|g')
 
 #Log files paths
-server_log_file := $(GLASSFISH_HOME)/glassfish/domains/$(domain)/logs/server.log
-server_log_link := $(project_path)debug.log
+server_log_file := $(GLASSFISH_HOME)\\glassfish\\domains\\$(domain)\\logs
+server_log_link := $(project_path)\\debug
 
 all:
 	@echo "Launching app in http://localhost:$(port_no)/$(project)/ ..."
@@ -24,10 +25,10 @@ all:
 	@start http://localhost:$(port_no)/$(project)/
 
 #Create symbolic link to glassfish log file
-	@ln -s $(server_log_file) $(server_log_link)
+	@cmd.exe /c mklink /J $(server_log_link) $(server_log_file)
 
-restart:
-	@echo "Restarting app in http://localhost:$(port_no)/$(project)/ ..."
+refresh:
+	@echo "Refreshing app in http://localhost:$(port_no)/$(project)/ ..."
 	@asadmin restart-domain
 	@asadmin undeploy $(project)
 	@asadmin deploy build/libs/$(project).war
@@ -39,3 +40,7 @@ clean:
 	@asadmin stop-domain
 	@gradle clean
 	@rm $(server_log_link)
+
+restart:
+	@make clean
+	@make
