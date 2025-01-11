@@ -1,0 +1,8 @@
+1) Tools:
+JDK:https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/downloads-list.html
+Environment for Jakarta EE: https://www.eclipse.org/downloads/download.php?file=/ee4j/glassfish/glassfish-7.0.19.zip
+Build system for Java app:https://gradle.org/releases/
+Make tool: from Cygwin, Chocolatey or MSYS2
+2) PATH editing:
+-create GLASSFISH_HOME system variable that points to the root directory of you glassfish installation
+-add %GLASSFISH_HOME%\glassfish\bin, make and gradle to PATH variable

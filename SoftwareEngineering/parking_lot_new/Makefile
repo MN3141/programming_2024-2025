@@ -1,8 +1,19 @@
 #Gradle: build system for Java
 project=parking_lot_new-1.0-SNAPSHOT
 port_no=8080
+domain=domain1
+
+#Get the path of the project
+makefile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+project_path := $(dir $(makefile_path))
+
+#Log files paths
+server_log_file := $(GLASSFISH_HOME)/glassfish/domains/$(domain)/logs/server.log
+server_log_link := $(project_path)debug.log
+
 all:
 	@echo "Launching app in http://localhost:$(port_no)/$(project)/ ..."
+
 #Build archive file
 	@gradle build
 	@asadmin start-domain
@@ -11,6 +22,9 @@ all:
 #Deploy to glassfish environment
 	@asadmin deploy build/libs/$(project).war
 	@start http://localhost:$(port_no)/$(project)/
+
+#Create symbolic link to glassfish log file
+	@ln -s $(server_log_file) $(server_log_link)
 
 restart:
 	@echo "Restarting app in http://localhost:$(port_no)/$(project)/ ..."
@@ -24,3 +38,4 @@ clean:
 	@asadmin undeploy $(project)
 	@asadmin stop-domain
 	@gradle clean
+	@rm $(server_log_link)
