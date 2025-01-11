@@ -32,11 +32,14 @@ public class Car {
         return parkingSpot;
     }
 
-    public void setParkingSport(String parkingSpot) {
+    public void setParkingSpot(String parkingSpot) {
         this.parkingSpot = parkingSpot;
     }
     public User getOwner() {
         return owner;
     }
 
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 }
