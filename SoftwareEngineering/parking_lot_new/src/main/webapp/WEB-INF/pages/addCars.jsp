@@ -1,9 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
-<%
-System.out.print("addCars.jsp");
-%>
 <t:pageTemplate pageTitle="AddCar">
   <h1>AddCar</h1>
   <form class = "needs-validation" novalidate method="post" action="${pageContext.request.contextPath}/AddCar">
@@ -45,7 +42,4 @@ System.out.print("addCars.jsp");
       </div>
     </div>
   </form>
-  <%
-  System.out.print("Out of addCars.jsp");
-  %>
 </t:pageTemplate>

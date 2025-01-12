@@ -25,7 +25,7 @@ public class CarsBean {
 
         List<CarDto> carDtos = new ArrayList<CarDto>();
         for (Car car : cars) {
-            carDtos.add(new CarDto(car.getId(), car.getLicensePlate(), car.getParkingSpot(), car.owner.getUsername())
+            carDtos.add(new CarDto(car.getId(), car.getLicensePlate(), car.getParkingSpot(), car.getOwner().getUsername())
             );
         }
         return carDtos;
@@ -46,6 +46,10 @@ public class CarsBean {
 
     public void createCar(String licensePlate, String parkingSpot, Long userId) {
         LOG.info("createCar");
+
+        LOG.info("==============================");
+        LOG.info(licensePlate+" "+parkingSpot+" "+userId);
+        LOG.info("==============================");
 
         Car car = new Car();
         car.setLicensePlate(licensePlate);

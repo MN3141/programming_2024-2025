@@ -32,6 +32,12 @@ public class UserBean {
         for (User user : users) {
             userDtos.add(new UserDto(user.getId(), user.getUsername(), user.getEmail(), user.getPassword()));
         }
+
+        LOG.info("==============================");
+            LOG.info("Copying all users to DTO...");
+            LOG.info(userDtos.toString());
+            LOG.info("==============================");
+
         return userDtos;
     }
 
@@ -42,6 +48,10 @@ public class UserBean {
             TypedQuery<User> typedQuery =
                     entityManager.createQuery("SELECT u FROM User u", User.class);
             List<User> users = typedQuery.getResultList();
+            LOG.info("==============================");
+            LOG.info("Finding all users...");
+            LOG.info(users.toString());
+            LOG.info("==============================");
             return copyUsersToDto(users);
         } catch (Exception e) {
             throw new EJBException("Error fetching users", e);
