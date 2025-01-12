@@ -1,0 +1,34 @@
+Tags and commands for Glassfish and MySQL servers:
+
+1) User profie:
+	GRANT SELECT, INSERT, UPDATE, DELETE, FILE ON ParkingLot.* TO 'ParkingLotUser'@'localhost';
+	GRANT CREATE, ALTER, INDEX, DROP, CREATE TEMPORARY TABLE, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EXECUTE, CREATE VIEW, EVENT, TRIGGER ON ParkingLot.* TO 'ParkingLotUser'@'localhost';
+	FLUSH PRIVILEGES; in order to apply privileges
+	SHOW GRANTS FOR 'ParkingLotUser'@'localhost';
+
+
+2) Resource pool:
+<jdbc-connection-pool datasource-classname="com.mysql.cj.jdbc.MysqlXADataSource" name="ParkingLotConnectionPool" res-type="javax.sql.XADataSource">
+      <property name="portNumber" value="3306"></property>
+      <property name="user" value="ParkingLotUser"></property>
+      <property name="serverName" value="localhost"></property>
+      <property name="databaseName" value="ParkingLot"></property>
+      <property name="password" value="ParkingLotPassword"></property>
+      <property name="useSSL" value="False"></property>
+    </jdbc-connection-pool>
+    <jdbc-resource pool-name="ParkingLotConnectionPool" jndi-name="jdbc/ParkingLotResource"></jdbc-resource>	
+
+3)Security:
+        <auth-realm classname="com.sun.enterprise.security.ee.authentication.glassfish.jdbc.JDBCRealm" name="jdbcRealm">
+          <property name="group-table" value="usergroup"></property>
+          <property name="digestrealm-password-enc-algorithm" value="SHA-256"></property>
+          <property name="password-column" value="password"></property>
+          <property name="digest-algorithm" value="SHA-256"></property>
+          <property name="user-table" value="user"></property>
+          <property name="encoding" value="Hex"></property>
+          <property name="datasource-jndi" value="jdbc/ParkingLotResource"></property>
+          <property name="user-name-column" value="username"></property>
+          <property name="group-table-user-name-column" value="username"></property>
+          <property name="group-name-column" value="usergroup"></property>
+          <property name="jaas-context" value="jdbcRealm"></property>
+        </auth-realm>

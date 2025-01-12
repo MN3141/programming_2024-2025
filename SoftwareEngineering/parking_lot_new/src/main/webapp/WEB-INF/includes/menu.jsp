@@ -1,35 +1,49 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: stanc
+  Date: 11/4/2024
+  Time: 8:03 AM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="${pageContext.request.contextPath}">Parking Lot</a>
+            <a class="navbar-brand" href=${pageContext.request.contextPath}>Parking Lot</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link
-                        ${pageContext.request.requestURI.substring(pageContext.request.requestURI.lastIndexOf
-("/")) eq               '/about.jsp' ? ' active' : ''}" aria-current="page" href="${pageContext.request.contextPath}/about.jsp">About</a>
+                        <a class="nav-link ${pageContext.request.requestURI.substring(pageContext.request.requestURI.lastIndexOf("/")) eq '/about.jsp' ? 'active' : ''}"
+                           aria-current="page" href=${pageContext.request.contextPath}/about.jsp>About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link ${activePage eq 'Cars' ? 'active' : ''}" href="${pageContext.request.contextPath}/Cars">Cars</a>
+                        <c:if test="${pageContext.request.isUserInRole('READ_CARS')}">
+                        <a class="nav-link ${pageContext.request.requestURI.substring(pageContext.request.requestURI.lastIndexOf("/")) eq '/cars.jsp' ? 'active' : ''}"
+                           aria-current="page" href=${pageContext.request.contextPath}/Cars>Cars</a>
+                        </c:if>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled">Disabled</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link
-                        ${pageContext.request.requestURI.substring(pageContext.request.requestURI.lastIndexOf
-("/")) eq               '/users.jsp' ? ' active' : ''}" aria-current="page" href="${pageContext.request.contextPath}/about.jsp">Users</a>
+                        <c:if test="${pageContext.request.isUserInRole('READ_USERS')}">
+                        <a class="nav-link ${pageContext.request.requestURI.substring(pageContext.request.requestURI.lastIndexOf("/")) eq '/users.jsp' ? 'active' : ''}"
+                           aria-current="page" href=${pageContext.request.contextPath}/Users>Users</a>
+                        </c:if>
                     </li>
                 </ul>
-                <uL class="navbar-nav">
-                    <li class="navbar-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/Login">Login</a>
+                <ul class ="navbar-nav">
+                    <li class="nav-item">
+                        <c:choose>
+                            <c:when test="${pageContext.request.getRemoteUser() == null}">
+                                <a class="nav-link" href="${pageContext.request.contextPath}/Login">Login</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/Logout">Logout</a>
+                            </c:otherwise>
+                        </c:choose>
                     </li>
-
-                </uL>
+                </ul>
             </div>
         </div>
     </nav>

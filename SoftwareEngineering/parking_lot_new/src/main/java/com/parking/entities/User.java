@@ -1,37 +1,38 @@
 package com.parking.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 
 import java.util.Collection;
 
 @Entity
 public class User {
-    @Id
-    @GeneratedValue
     private Long id;
-    private String username;
-    private String password;
-    private String email;
-    private Collection<Car> cars;
 
     public void setId(Long id) {
         this.id = id;
     }
 
+    @Id
+    @GeneratedValue
     public Long getId() {
         return id;
+    }
+
+    private String username;
+
+    @Basic
+    @Column(unique = true, nullable = false, length = 100)
+    public String getUsername() {
+        return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public String getUsername() {
-        return username;
-    }
+    private String email;
+    private String password;
 
     public String getPassword() {
         return password;
@@ -41,6 +42,8 @@ public class User {
         this.password = password;
     }
 
+    @Email
+    @Column(unique = true,nullable = false,length = 100)
     public String getEmail() {
         return email;
     }
@@ -48,6 +51,8 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    private Collection<Car> cars;
 
     @OneToMany(mappedBy = "owner")
     public Collection<Car> getCars() {
