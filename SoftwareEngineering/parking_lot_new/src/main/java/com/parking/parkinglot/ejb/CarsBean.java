@@ -44,7 +44,7 @@ public class CarsBean {
         }
     }
 
-    public void createCar(String licensePlate, String parkingSpot, Long userId){
+    public void createCar(String licensePlate, String parkingSpot, Long userId) {
         LOG.info("createCar");
 
         Car car = new Car();

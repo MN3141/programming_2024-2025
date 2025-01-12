@@ -1,5 +1,6 @@
 package com.parking.servlets;
 
+import com.parking.parkinglot.common.UserDto;
 import com.parking.parkinglot.ejb.UserBean;
 import jakarta.inject.Inject;
 import jakarta.servlet.*;
@@ -7,20 +8,28 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Logger;
 
 @ServletSecurity(value = @HttpConstraint(rolesAllowed = {"WRITE_USERS"}))
-@WebServlet(name = "AddUser", value = "/AddUser")
-public class AddUser extends HttpServlet {
+@WebServlet(name = "EditUser", value = "/EditUser")
+public class EditUserServlet extends HttpServlet {
+
+    private static final Logger LOG = Logger.getLogger(EditUserServlet.class.getName());
     @Inject
     UserBean userBean;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse
             response) throws ServletException, IOException {
-        request.setAttribute("userGroups", new String[] {"READ_CARS", "WRITE_CARS",
-                "READ_USERS", "WRITE_USERS", "INVOICING"});
-        request.getRequestDispatcher("/WEB-INF/pages/addUser.jsp").forward(request,
-                response);
+        List<UserDto> users=userBean.findAllUsers();
+        request.setAttribute("users", users);
+
+        Long userId=Long.parseLong(request.getParameter("id"));
+        UserDto user=userBean.findById(userId);
+        request.setAttribute("user", user);
+
+        request.getRequestDispatcher("/WEB-INF/pages/editUser.jsp").forward(request,response);
     }
 
     @Override
@@ -28,15 +37,11 @@ public class AddUser extends HttpServlet {
             response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
-
         String password = request.getParameter("password");
-        String[] userGroups =
-                request.getParameterValues("user_groups");
-        if (userGroups == null) {
-            userGroups = new String[0];
-        }
-        userBean.createUser(username, email, password,
-                Arrays.asList(userGroups));
+        Long userId = Long.parseLong(request.getParameter("id"));
+
+        userBean.updateUser(userId, username, email, password);
         response.sendRedirect(request.getContextPath() + "/Users");
+
     }
 }
