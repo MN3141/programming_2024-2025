@@ -34,6 +34,7 @@ public class EditCarServlet extends HttpServlet {
 
         LOG.info("Requesting to edit cars list");
         List<UserDto> users = userBean.findAllUsers();
+        request.setAttribute("users", users);
 
         Long carID=Long.parseLong(request.getParameter("id"));
         CarDto carDto=carsBean.findById(carID);
