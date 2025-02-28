@@ -16,3 +16,9 @@ WindDirStat,https://github.com/windirstat/windirstat/releases/download/release/v
 Act_CICD,https://github.com/nektos/act/archive/refs/heads/master.zip
 UnityCTestFramework,https://github.com/ThrowTheSwitch/Unity/archive/refs/heads/master.zip
 Microsfot_VisualC++_Redistributable,https://aka.ms/vs/17/release/vc_redist.x64.exe
+DotNet,https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-9.0.200-windows-x64-installer
+Go,https://go.dev/dl/go1.24.0.windows-amd64.msi
+Docker,https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe?utm_source=docker&utm_medium=webreferral&utm_campaign=docs-driven-download-win-amd64
+MySQL,https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-web-community-8.0.41.0.msi
+TASM,https://downloads.sourceforge.net/project/guitasm8086/GUI%20Turbo%20Assembler%20v5.1.msi?ts=gAAAAABnwgRUmCPyBuD7bE9tgUGNTQ7Uyr99Er2kXqdo3ADTydMKFwJBBijZdebq0QY6g8etqRgUmhWtwOImCmQ3ilgGRxqyuA%3D%3D&r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fguitasm8086%2Ffiles%2Flatest%2Fdownload
+Obsidian,https://github.com/obsidianmd/obsidian-releases/releases/download/v1.8.7/Obsidian-1.8.7.exe

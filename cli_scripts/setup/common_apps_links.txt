@@ -7,3 +7,5 @@ Firefox,https://download.mozilla.org/?product=firefox-stub&os=win&lang=en-US
 MicroTorrent,https://download-hr.utorrent.com/track/stable/endpoint/utorrent/os/riserollout?filename=utorrent_installer.exe
 FlashPoint,https://github.com/FlashpointProject/FlashpointComponentTools/releases/latest/download/FlashpointInstaller.exe
 VirtualBox,https://download.virtualbox.org/virtualbox/7.1.4/VirtualBox-7.1.4-165100-Win.exe
+MusicBee,https://www.majorgeeks.com/index.php?ct=files&action=download&
+MP3Tag,https://download.mp3tag.de/mp3tagv328-x64-setup.exe
