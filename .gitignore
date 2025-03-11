@@ -1,2 +1,8 @@
+# Information Retrieval
 InformationRetrieval/Reuters*/*
 InformationRetrieval/*/src/*.exe
+
+# Operating Systems
+OperatingSystems/*/.vs/*
+OperatingSystems/*/bin/*
+OperatingSystems/*/obj/*
