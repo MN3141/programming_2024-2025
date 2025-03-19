@@ -9,3 +9,7 @@ InformationRetrieval/*/obj/*
 OperatingSystems/*/.vs/*
 OperatingSystems/*/bin/*
 OperatingSystems/*/obj/*
+
+## Computer architecture
+ComputerArch/*/*.exe
+ComputerArch/*/*.obj
