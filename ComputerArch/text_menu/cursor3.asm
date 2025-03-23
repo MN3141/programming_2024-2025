@@ -34,7 +34,13 @@
     EDIT_STR_INDEX DW 160
     EXIT_STR_INDEX DW 320
 
-    ALREADY_THERE DB 0; Check if the cursor is already at an option
+    DISTANCE_THRESHOLD DB 9
+
+    ; Check if the cursor is already at an option
+    ALREADY_THERE_FILE DB 0
+    ALREADY_THERE_EDIT DB 0
+    ALREADY_THERE_EXIT DB 0
+
     ENTER_PRESSED DB 0
 
     READ_KEY MACRO
@@ -61,7 +67,9 @@
         mov X,ah
         mov al,0
         mov Y,al
-        ;Position = i + N x j, where i and j and indexes
+        ; NOTE: in this implementation, the "buttons" are
+        ;       located in a 4x3 matrix
+
         PRINT_STRING FILE_NORMAL_STR,FILE_STR_INDEX
         PRINT_STRING EDIT_NORMAL_STR,EDIT_STR_INDEX
         PRINT_STRING EXIT_NORMAL_STR,EXIT_STR_INDEX
@@ -145,56 +153,107 @@
         _check_key_caput:
 
             RET
+        ; Check coordinates for debugging reasons
+        mov dh,X
+        mov dl,Y
         CHECK_PRESSED_KEY ENDP
 
-    CHECK_POSITION PROC
+    COMPUTE_DISTANCE proc
 
-        mov ah,Y
-        cmp ah,0
-        je _first_line
-        cmp ah,1
-        je _second_line
-        cmp ah,2
-        je _third_line
-        ; outside of menu area
-        PRINT_STRING FILE_NORMAL_STR,FILE_STR_INDEX
-        PRINT_STRING EDIT_NORMAL_STR,EDIT_STR_INDEX
-        PRINT_STRING EXIT_NORMAL_STR,EXIT_STR_INDEX
-        jmp _check_position_caput
+        ; compute the distance between the cursor and the menu
+        ; and ouput the value in DL register
 
-    _first_line:
+        mov al,X
+        mul al
+        mov bh,al ; x*x
 
-        mov ah,X
-        cmp ah,3
-        jbe _first_line_check
-        jmp _check_position_caput
+        mov al,Y
+        mul al
+        mov bl,al ; y*y
 
-    _first_line_check:
-        cmp ah,0
-        jae _file_line
-        jmp _check_position_caput
+        add bh,bl
+        cmp bh,DISTANCE_THRESHOLD
+        jnae _true
+        mov DL,0
+        jmp _compute_distance_caput
 
-    _file_line:
+    _true:
+        mov DL,1
 
-        mov ah,ALREADY_THERE
-        jz _file_line_update
-
-        mov ah,1
-        mov ALREADY_THERE,ah ; first time here
-        jmp _check_position_caput
-
-    _file_line_update:
-        PRINT_STRING FILE_HIGHLIGHT_STR,FILE_STR_INDEX
-        jmp _check_position_caput
-
-    _second_line:
-
-
-    _third_line:
-    _check_position_caput:
-
+    _compute_distance_caput:
         RET
 
+    COMPUTE_DISTANCE ENDP
+
+    CHECK_POSITION proc
+
+        call COMPUTE_DISTANCE
+        cmp dl,1 ; the cursor is in the menu area
+        je _in_area
+        mov dl,0
+        ; reset highlight flags
+        mov ALREADY_THERE_FILE,dl
+        mov ALREADY_THERE_EDIT,dl
+        mov ALREADY_THERE_EXIT,dl
+        jmp _check_postition_caput
+
+    _in_area:
+        ; check button
+
+        mov dl,Y
+        cmp dl,0
+        je _file_button
+        cmp dl,1
+        je _edit_button
+        cmp dl,2
+        je _exit_button
+
+    _file_button
+
+        mov dl,ALREADY_THERE_FILE
+        cmp dl,1 ; check if the button was already highlighted
+        jne _highlight_file
+        jmp _check_key_caput
+
+    _highlight_file:
+        mov dl,1
+        mov ALREADY_THERE_FILE,dl
+        PRINT_STRING FILE_HIGHLIGHT_STR, FILE_STR_INDEX
+        jmp _check_key_caput
+
+    _edit_button:
+
+        mov dl,ALREADY_THERE_EDIT
+        cmp dl,1
+        jne _highlight_edit
+        jmp _check_postition_caput
+
+    _highlight_edit:
+
+        mov dl,1
+        mov ALREADY_THERE_EDIT,dl
+        PRINT_STRING EDIT_HIGHLIGHT_STR, EDIT_STR_INDEX
+        jmp _check_postition_caput
+
+    _exit_button:
+
+        mov dl,ALREADY_THERE_EXIT
+        cmp dl,1
+        jne _highlight_exit
+        mov dl,ENTER_PRESSED
+        cmp dl,1
+        je END
+        jmp _check_postition_caput
+
+    _highlight_exit:
+
+        mov dl,1
+        mov ALREADY_THERE_EXIT,dl
+        PRINT_STRING EXIT_HIGHLIGHT_STR, EXIT_STR_INDEX
+        jmp _check_postition_caput
+
+    _check_postition_caput:
+        RET
     CHECK_POSITION ENDP
 END
 ;***************************************************************************
