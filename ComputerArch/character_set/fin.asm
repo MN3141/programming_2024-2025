@@ -51,7 +51,7 @@ caput:
 
     ; Open the file
 
-        mov ah,OPEN_FILE_FUNC_NUM
+        mov ah,OPEN _FILE_FUNC_NUM
         mov al,READ_FILE_MODE
         int 21h
         jc open_error
