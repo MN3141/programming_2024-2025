@@ -10,6 +10,9 @@ OperatingSystems/*/.vs/*
 OperatingSystems/*/bin/*
 OperatingSystems/*/obj/*
 
-## Computer architecture
+# Computer architecture
 ComputerArch/*/*.exe
 ComputerArch/*/*.obj
+ComputerArch/*/*.txt
+ComputerArch/*/*.tr
+ComputerArch/*/*.td
