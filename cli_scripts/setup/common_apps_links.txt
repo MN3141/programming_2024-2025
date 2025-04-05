@@ -9,3 +9,5 @@ FlashPoint,https://github.com/FlashpointProject/FlashpointComponentTools/release
 VirtualBox,https://download.virtualbox.org/virtualbox/7.1.4/VirtualBox-7.1.4-165100-Win.exe
 MusicBee,https://www.majorgeeks.com/index.php?ct=files&action=download&
 MP3Tag,https://download.mp3tag.de/mp3tagv328-x64-setup.exe
+SystemInformer,https://downloads.sourceforge.net/project/systeminformer/systeminformer-3.2.25011-release-bin.zip?ts=gAAAAABn8VVDGi9oMUGfw7W684B4XtYUDvHQHY9Rkr4Wk9UAFVOJUUuyFFajUJ-3XEf00ZD7u14Tfx1lJBzWNr_rj_rZguqF1w%3D%3D&r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fsysteminformer%2Ffiles%2Fsysteminformer-3.2.25011-release-bin.zip%2Fdownload%3Fuse_mirror%3Dnetix%26use_mirror%3Dnetix%26r%3Dhttps%253A%252F%252Fsysteminformer.com%252F
+SoundManager,https://github.com/ORelio/Sound-Manager/releases/download/v3.4.0/sound-manager-v3.4.0.zip
