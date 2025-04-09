@@ -101,6 +101,7 @@ class SearchEngine
             {
                 PorterStemmer porterStemmer = new PorterStemmer();
                 string processedWord = porterStemmer.StemWord(unfilteredWords[i]);
+
                 if (!this._globalVector.Contains(processedWord))
                 {
                     this._globalVector.Add(processedWord);
@@ -138,7 +139,7 @@ class SearchEngine
             writer.WriteLine("Frequency vector:");
             foreach (KeyValuePair<int, int> pair in freqVector)
             {
-              writer.Write($" Index: {pair.Key}, Frequency: {pair.Value}");
+              writer.Write($"Index:{pair.Key} Frequency:{pair.Value}, ");
             }
         }
     }

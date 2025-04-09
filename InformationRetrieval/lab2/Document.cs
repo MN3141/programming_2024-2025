@@ -41,7 +41,7 @@ class Document
     }
     public void AddNewEntry(int wordIndex)
     {
-        this._frequencyVector.Add(wordIndex, 0);
+        this._frequencyVector.Add(wordIndex, 1);
     }
     public void CheckWordFrequencyVector(int wordIndex)
     {
