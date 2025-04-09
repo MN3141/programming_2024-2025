@@ -6,10 +6,49 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using PorterStemmer = WordFrequency.PorterStemmer;
 class SearchEngine
-{
+{ 
     string _outputDir;
 
     List<String> _inputFilePaths, _stopWords;
+    List<Document> documents;
+
+    public SearchEngine(List<string> filePaths)
+    {
+        this._inputFilePaths = filePaths;
+        this.documents = new List<Document>();
+    }
+    public void SetStopWords(string filePath)
+    {
+        this._stopWords = new List<string>();
+        foreach (string line in File.ReadLines(filePath))
+            this._stopWords.Add(line);
+
+    }
+    public void SetOutputDir(string directory)
+    {
+        this._outputDir = directory;
+    }
+
+    public void ParseDocuments()
+    {
+        foreach (string file in this._inputFilePaths)
+        {
+            Document doc = new Document(file);
+
+            this.documents.Add(doc);
+            string[] docName = file.Split(new char[] { '.', '\\' });
+            doc.SetOutputFileName(this._outputDir + "\\" + docName[docName.Length - 2] + ".txt");
+
+            ParseDocument(doc);
+        }
+
+        for (int i = 0; i < this.documents.Count; i++)
+        {
+            Document doc = this.documents[i]; // Work on a copy
+            this.DumpFile(ref doc, doc.GetDocumentOutputFile());
+        }
+
+    }
 
     private void FilterList(ref List<string> unfilteredWords, ref Document doc)
     {
@@ -48,14 +87,18 @@ class SearchEngine
             writer.WriteLine(doc.GetFileName());
             writer.WriteLine(doc.GetDocumentTitle());
 
+            writer.WriteLine("Global vector:");
+
             foreach (string word in globalVector)
                 writer.Write(word + ", ");
 
+            writer.WriteLine("");
+            writer.WriteLine("Frequency vector:");
             foreach (Dictionary<int,int> dict in freqVector)
             {
                 foreach (var kvp in dict)
                 {
-                    writer.Write($"Key: {kvp.Key}, Value: {kvp.Value}");
+                    writer.Write($" Key: {kvp.Key}, Value: {kvp.Value}");
                 }
             }
         }
@@ -93,58 +136,23 @@ class SearchEngine
             }
         }
 
-        DumpFile(ref doc, doc.GetDocumentOutputFile());
     }
 
-    public void ParseDocuments()
-    {
-        foreach(string file in this._inputFilePaths)
-        {
-            Document doc = new Document(file);
 
-            string[] docName = file.Split(new char[] { '.', '\\' });
-            doc.SetOutputFileName(this._outputDir + "\\" + docName[docName.Length - 2] + ".txt");
-            ParseDocument(doc);
-        }
-    }
-    public void SetStopWords(string filePath)
-    {
-        this._stopWords = new List<string>();
-        foreach (string line in File.ReadLines(filePath))
-        {
-            this._stopWords.Add(line);
-        }
-    }
-
-    public void SetOutputDir(string directory)
-    {
-        this._outputDir = directory;
-    }
-
-    public SearchEngine(List<string> filePaths)
-    {
-        this._inputFilePaths = filePaths;
-    }
 }
 class Program
 {
     static void Main()
     {
         DateTime startTime = DateTime.Now;
-        string appDir = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-        string stopWordsFile = appDir + "\\stopwords.txt";
-        string inputDir = appDir + "\\..\\Reuters_34\\Training";
 
-        DirectoryInfo inputDirInfo = new DirectoryInfo(inputDir);
-        FileInfo [] filesInfo = inputDirInfo.GetFiles();
-        List<String> inputPaths = new();
-        foreach(FileInfo file in filesInfo)
-        {
-            inputPaths.Add(file.FullName);
-        }
+        string appDir = Path.GetFullPath(AppContext.BaseDirectory + "..\\..\\..");
+        string stopWordsFile = Path.GetFullPath(appDir + "\\stopwords.txt");
+        string inputDir = Path.GetFullPath(appDir + "\\..\\Reuters_34\\Training");
+        List<string> inputPaths = Directory.GetFiles(inputDir).ToList();
 
         SearchEngine docProc = new SearchEngine(inputPaths);
-        docProc.SetOutputDir(appDir);
+        docProc.SetOutputDir(appDir + "\\vectors");
         docProc.SetStopWords(stopWordsFile);
         docProc.ParseDocuments();
 

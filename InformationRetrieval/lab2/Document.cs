@@ -50,7 +50,7 @@ class Document
 
     public void CheckWordGlobalVector(string word)
     {
-        if (this._globalVector.Contains(word))
+        if (!this._globalVector.Contains(word))
             this._globalVector.Add(word);
     }
 
@@ -60,6 +60,12 @@ class Document
 
         if (wordIndex != -1)
         {
+            if (this._frequencyVector.Count == 0)
+            {
+                Dictionary<int, int> temp = new Dictionary<int, int>();
+                temp.Add(wordIndex, 1);
+                this._frequencyVector.Add(temp);
+            }
             foreach (Dictionary<int, int> dic in this._frequencyVector)
             {
                 if (dic.ContainsKey(wordIndex))
