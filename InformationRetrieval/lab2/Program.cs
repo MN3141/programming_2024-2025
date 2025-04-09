@@ -6,16 +6,17 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using PorterStemmer = WordFrequency.PorterStemmer;
 class SearchEngine
-{ 
+{
     string _outputDir;
 
-    List<String> _inputFilePaths, _stopWords;
+    List<String> _globalVector, _inputFilePaths, _stopWords;
     List<Document> documents;
 
     public SearchEngine(List<string> filePaths)
     {
         this._inputFilePaths = filePaths;
         this.documents = new List<Document>();
+        this._globalVector = new List<string>();
     }
     public void SetStopWords(string filePath)
     {
@@ -50,59 +51,6 @@ class SearchEngine
 
     }
 
-    private void FilterList(ref List<string> unfilteredWords, ref Document doc)
-    {
-
-        int size = unfilteredWords.Count;
-        
-        for(int i = size - 1; i >= 0; i--)
-        {
-            unfilteredWords[i] = Regex.Replace(unfilteredWords[i], @"\p{P}", ""); //remove punctuation marks
-
-            if (this._stopWords.Contains(unfilteredWords[i]))
-                unfilteredWords.RemoveAt(i);
-            else
-            {
-                PorterStemmer porterStemmer = new PorterStemmer();
-                string processedWord = porterStemmer.StemWord(unfilteredWords[i]);
-                doc.CheckWordGlobalVector(processedWord);
-                doc.CheckWordFrequencyVector(processedWord);
-            }
-        }
-    }
-
-    private void DumpFile(ref Document doc, string filePath)
-    {
-        if (!Directory.Exists(this._outputDir))
-        {
-            Directory.CreateDirectory(this._outputDir);
-        }
-
-        using (StreamWriter writer = new StreamWriter(filePath))
-        {
-
-            List<String> globalVector = doc.GetGlobalVector();
-            List< Dictionary<int, int> > freqVector = doc.GetFrequencyVector();
-
-            writer.WriteLine(doc.GetFileName());
-            writer.WriteLine(doc.GetDocumentTitle());
-
-            writer.WriteLine("Global vector:");
-
-            foreach (string word in globalVector)
-                writer.Write(word + ", ");
-
-            writer.WriteLine("");
-            writer.WriteLine("Frequency vector:");
-            foreach (Dictionary<int,int> dict in freqVector)
-            {
-                foreach (var kvp in dict)
-                {
-                    writer.Write($" Key: {kvp.Key}, Value: {kvp.Value}");
-                }
-            }
-        }
-    }
     private void ParseDocument(Document doc)
     {
 
@@ -126,7 +74,7 @@ class SearchEngine
                             string paragraph = reader.ReadElementContentAsString();
                             List<string> rawWords = paragraph.ToLower().Split(" ").ToList();
                             FilterList(ref rawWords, ref doc);
-                             
+
                         }
                         else if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "text")
                             break; //We are only interested in the document title and it's text;
@@ -138,6 +86,62 @@ class SearchEngine
 
     }
 
+    private void FilterList(ref List<string> unfilteredWords, ref Document doc)
+    {
+
+        int size = unfilteredWords.Count;
+
+        for(int i = size - 1; i >= 0; i--)
+        {
+            unfilteredWords[i] = Regex.Replace(unfilteredWords[i], @"[\p{P}\d]", ""); //remove punctuation marks and numbers
+
+            if (this._stopWords.Contains(unfilteredWords[i]))
+                unfilteredWords.RemoveAt(i);
+            else
+            {
+                PorterStemmer porterStemmer = new PorterStemmer();
+                string processedWord = porterStemmer.StemWord(unfilteredWords[i]);
+                if (!this._globalVector.Contains(processedWord))
+                {
+                    this._globalVector.Add(processedWord);
+
+                    doc.AddNewEntry(this._globalVector.IndexOf(processedWord));
+                }
+
+                else
+                    doc.CheckWordFrequencyVector(this._globalVector.IndexOf(processedWord));
+            }
+        }
+    }
+
+    private void DumpFile(ref Document doc, string filePath)
+    {
+        if (!Directory.Exists(this._outputDir))
+        {
+            Directory.CreateDirectory(this._outputDir);
+        }
+
+        using (StreamWriter writer = new StreamWriter(filePath))
+        {
+
+            Dictionary<int, int> freqVector = doc.GetFrequencyVector();
+
+            writer.WriteLine(doc.GetFileName());
+            writer.WriteLine(doc.GetDocumentTitle());
+
+            writer.WriteLine("Global vector:");
+
+            foreach (string word in this._globalVector)
+                writer.Write(word + ", ");
+
+            writer.WriteLine("");
+            writer.WriteLine("Frequency vector:");
+            foreach (KeyValuePair<int, int> pair in freqVector)
+            {
+              writer.Write($" Index: {pair.Key}, Frequency: {pair.Value}");
+            }
+        }
+    }
 
 }
 class Program

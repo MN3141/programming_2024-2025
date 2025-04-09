@@ -4,14 +4,12 @@ class Document
 {
      string _fileName, _title;
      string _outputFileName;
-     List<String> _globalVector;
-     List<Dictionary<int, int>> _frequencyVector;
+     Dictionary<int, int> _frequencyVector;
 
     public Document(string fileName)
     {
         this._fileName = fileName;
-        this._globalVector = new List<string>();
-        this._frequencyVector = new List<Dictionary<int, int>>();
+        this._frequencyVector = new Dictionary<int, int>();
     }
 
     public void SetDocumentTitle(string title)
@@ -37,41 +35,20 @@ class Document
     {
         return this._outputFileName;
     }
-
-    public List<String> GetGlobalVector()
-    {
-        return this._globalVector;
-    }
-
-    public List< Dictionary<int,int> > GetFrequencyVector()
+    public Dictionary<int, int> GetFrequencyVector()
     {
         return this._frequencyVector;
     }
-
-    public void CheckWordGlobalVector(string word)
+    public void AddNewEntry(int wordIndex)
     {
-        if (!this._globalVector.Contains(word))
-            this._globalVector.Add(word);
+        this._frequencyVector.Add(wordIndex, 0);
+    }
+    public void CheckWordFrequencyVector(int wordIndex)
+    {
+
+        if (this._frequencyVector.ContainsKey(wordIndex))
+            this._frequencyVector[wordIndex] += 1;
+
     }
 
-    public void CheckWordFrequencyVector(string word)
-    {
-        int wordIndex = this._globalVector.IndexOf(word);
-
-        if (wordIndex != -1)
-        {
-            if (this._frequencyVector.Count == 0)
-            {
-                Dictionary<int, int> temp = new Dictionary<int, int>();
-                temp.Add(wordIndex, 1);
-                this._frequencyVector.Add(temp);
-            }
-            foreach (Dictionary<int, int> dic in this._frequencyVector)
-            {
-                if (dic.ContainsKey(wordIndex))
-                    dic[wordIndex] = dic[wordIndex] + 1;
-                else dic[wordIndex] = 1;
-            }
-        }
-    }
 }
