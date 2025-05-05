@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "winbase.h": "c"
+        "winbase.h": "c",
+        "cstdlib": "c"
     }
 }
