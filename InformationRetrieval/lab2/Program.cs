@@ -153,14 +153,18 @@ class Program
 
         string appDir = Path.GetFullPath(AppContext.BaseDirectory + "..\\..\\..");
         string stopWordsFile = Path.GetFullPath(appDir + "\\stopwords.txt");
-        string inputDir = Path.GetFullPath(appDir + "\\..\\Reuters_34\\Training");
+        string inputDir = Path.GetFullPath(appDir + "\\..\\Reuters_7083");
         List<string> inputPaths = Directory.GetFiles(inputDir).ToList();
+
+        // REMOVE tabs and mathematical signs
+        // update output file structure
+        // update project structure
 
         SearchEngine docProc = new SearchEngine(inputPaths);
         docProc.SetOutputDir(appDir + "\\vectors");
         docProc.SetStopWords(stopWordsFile);
         docProc.ParseDocuments();
 
-        Console.WriteLine("Process took " + (DateTime.Now.Millisecond - startTime.Millisecond).ToString() + " miliseconds");
+        Console.WriteLine("Process took " + (DateTime.Now - startTime).Milliseconds.ToString() + " miliseconds");
     }
 }
