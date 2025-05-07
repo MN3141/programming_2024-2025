@@ -1,4 +1,5 @@
 ﻿using System;
+using FooSearchEngine.Classes;
 
 namespace MyApp
 {
@@ -6,7 +7,14 @@ namespace MyApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            // REMOVE tabs and mathematical signs
+            // update output file structure
+            // update project structure
+            string appDir = Path.GetFullPath(AppContext.BaseDirectory + "..\\..\\..");
+            string inputDir = Path.GetFullPath(appDir + "\\..\\Reuters_7083");
+
+            XMLSearchEngine google = new XMLSearchEngine(inputDir);
+            google.Search();
         }
     }
 }
