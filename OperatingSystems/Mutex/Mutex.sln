@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FooReader", "FooReader.csproj", "{7CD2528E-E121-46B6-BE09-1C760DF2F9D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FooWriter", "..\FooWriter\FooWriter.csproj", "{10203B64-FCF9-48E9-8C0D-38CEE3B0C203}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\..\..\Users\mihai\Desktop\foo.txt = ..\..\..\..\..\..\Users\mihai\Desktop\foo.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7CD2528E-E121-46B6-BE09-1C760DF2F9D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CD2528E-E121-46B6-BE09-1C760DF2F9D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CD2528E-E121-46B6-BE09-1C760DF2F9D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CD2528E-E121-46B6-BE09-1C760DF2F9D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10203B64-FCF9-48E9-8C0D-38CEE3B0C203}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10203B64-FCF9-48E9-8C0D-38CEE3B0C203}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10203B64-FCF9-48E9-8C0D-38CEE3B0C203}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10203B64-FCF9-48E9-8C0D-38CEE3B0C203}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3C06AB84-F66F-4732-BF38-761D7335F20E}
+	EndGlobalSection
+EndGlobal
