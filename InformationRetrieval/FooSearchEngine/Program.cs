@@ -9,7 +9,7 @@ namespace MyApp
         {
             // REMOVE tabs and mathematical signs
             // update output file structure
-            // update project structure
+            // check how Windows API could be used to add multithreading
             string appDir = Path.GetFullPath(AppContext.BaseDirectory + "..\\..\\..");
             string inputDir = Path.GetFullPath(appDir + "\\..\\Reuters_7083");
 

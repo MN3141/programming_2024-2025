@@ -16,6 +16,7 @@ namespace FooSearchEngine.Classes
     public class AttributesExtractor : IAttributesExtractor
     {
         List<string> _stopWords = new List<string>();
+        List<string> _gatheredLabels = new List<string>();
         string stopWordsFile = Path.GetFullPath(
                                 Path.Combine(AppContext.BaseDirectory, @"..\..\..\Utils\stopwords.txt"));
         List<string> _globalVector;
@@ -78,6 +79,9 @@ namespace FooSearchEngine.Classes
 
                         }
                     }
+                    else if (reader.NodeType == XmlNodeType.Element && reader.Name == "codes"){
+                        //
+                    }
                 }
             }
         }
@@ -108,6 +112,9 @@ namespace FooSearchEngine.Classes
                         document.CheckWordFrequencyVector(this._globalVector.IndexOf(processedWord));
                 }
             }
+        }
+        public List<string> GetLabels(){
+            return null;
         }
     }
 }

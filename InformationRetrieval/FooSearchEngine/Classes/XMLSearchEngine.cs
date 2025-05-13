@@ -12,8 +12,10 @@ namespace FooSearchEngine.Classes
         string[] _inputFilesPaths;
         string _outputDir;
         List<string> _globalVector;
+        List<string> _labels;
         List<Document> _documents;
         IAttributesExtractor _attributesExtractor;
+        IAttributesPreprocessor _attributesPreprocessor;
 
         /// <summary>
         /// Constructor using files from a given directory
@@ -26,6 +28,7 @@ namespace FooSearchEngine.Classes
             this._outputDir = "output";
             this._documents = new List<Document>();
             this._attributesExtractor = new AttributesExtractor();
+            this._attributesPreprocessor = new AttributesPreprocessor();
         }
 
         /// <summary>
@@ -44,6 +47,8 @@ namespace FooSearchEngine.Classes
         public void Search()
         {
             this._documents = this._attributesExtractor.ParseDocuments(this._inputFilesPaths, this._globalVector);
+            this._labels = this._attributesExtractor.GetLabels();
+            this._attributesPreprocessor.FilterAttributes(this._globalVector, this._documents);
         }
 
         public void SetOutputDir(string dirPath)
@@ -55,5 +60,6 @@ namespace FooSearchEngine.Classes
 
             this._outputDir = dirPath;
         }
+
     }
 }
