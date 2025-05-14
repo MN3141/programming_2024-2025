@@ -47,7 +47,6 @@ namespace FooSearchEngine.Classes
         public void Search()
         {
             this._documents = this._attributesExtractor.ParseDocuments(this._inputFilesPaths, this._globalVector);
-            this._labels = this._attributesExtractor.GetLabels();
             this._attributesPreprocessor.FilterAttributes(this._globalVector, this._documents);
         }
 

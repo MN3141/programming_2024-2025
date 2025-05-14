@@ -11,7 +11,7 @@ namespace MyApp
             // update output file structure
             // check how Windows API could be used to add multithreading
             string appDir = Path.GetFullPath(AppContext.BaseDirectory + "..\\..\\..");
-            string inputDir = Path.GetFullPath(appDir + "\\..\\Reuters_7083");
+            string inputDir = Path.GetFullPath(appDir + "\\..\\Reuters_34\\Training");
 
             XMLSearchEngine google = new XMLSearchEngine(inputDir);
             google.Search();

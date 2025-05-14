@@ -11,9 +11,10 @@ namespace FooSearchEngine.Classes
     /// </summary>
     public class Document
     {
-        readonly string _fileName;
-        string _title;
-        Dictionary<int, int> _frequencyVector;
+        public string FileName { get; set; }
+        public string Title { get; set; }
+        public string Topic { get; set; }
+        public Dictionary<int, int> FrequencyVector { get; set; }
 
         /// <summary>
         /// fileName represents the
@@ -22,35 +23,10 @@ namespace FooSearchEngine.Classes
         /// <param name="fileName"></param>
         public Document(string fileName)
         {
-            this._fileName = fileName;
-            this._title = "FOO";
-            this._frequencyVector = new Dictionary<int, int>();
-        }
-
-        /// <summary>
-        /// Sets the title of the document.
-        /// </summary>
-        /// <param name="title"></param>
-        public void SetDocumentTitle(string title)
-        {
-            this._title = title;
-        }
-        /// <summary>
-        /// Returns the name of the file.
-        /// </summary>
-        /// <returns>string</returns>
-        public string GetFileName()
-        {
-            return this._fileName;
-        }
-
-        /// <summary>
-        ///Returns the frequency vector.
-        /// </summary>
-        /// <returns>Dictionary</returns>
-        public Dictionary<int, int> GetFrequencyVector()
-        {
-            return this._frequencyVector;
+            this.FileName = fileName;
+            this.Title = "FOO";
+            this.Topic = "FOO topic";
+            this.FrequencyVector = new Dictionary<int, int>();
         }
 
         /// <summary>
@@ -59,7 +35,7 @@ namespace FooSearchEngine.Classes
         /// <param name="wordIndex"></param>
         public void AddNewEntry(int wordIndex)
         {
-            this._frequencyVector.Add(wordIndex, 1);
+            this.FrequencyVector.Add(wordIndex, 1);
         }
 
         /// <summary>
@@ -69,8 +45,8 @@ namespace FooSearchEngine.Classes
         public void CheckWordFrequencyVector(int wordIndex)
         {
 
-            if (this._frequencyVector.ContainsKey(wordIndex))
-                this._frequencyVector[wordIndex] += 1;
+            if (this.FrequencyVector.ContainsKey(wordIndex))
+                this.FrequencyVector[wordIndex] += 1;
         }
 
     }

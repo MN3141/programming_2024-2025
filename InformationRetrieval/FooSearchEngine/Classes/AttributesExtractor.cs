@@ -19,7 +19,7 @@ namespace FooSearchEngine.Classes
         List<string> _gatheredLabels = new List<string>();
         string stopWordsFile = Path.GetFullPath(
                                 Path.Combine(AppContext.BaseDirectory, @"..\..\..\Utils\stopwords.txt"));
-        List<string> _globalVector;
+        List<string>? _globalVector;
         private void SetStopWords(string filePath)
         {
             this._stopWords = new List<string>();
@@ -53,14 +53,14 @@ namespace FooSearchEngine.Classes
 
         private void ParseDocument(Document document)
         {
-            using (XmlReader reader = XmlReader.Create(document.GetFileName()))
+            using (XmlReader reader = XmlReader.Create(document.FileName))
             {
                 while (reader.Read())
                 {
                     if (reader.NodeType == XmlNodeType.Element && reader.Name == "title")
                     {
                         reader.Read(); // Move to the text node (inside <title>)
-                        document.SetDocumentTitle(reader.Value);
+                        document.Title = reader.Value;
                     }
                     else if (reader.NodeType == XmlNodeType.Element && reader.Name == "text")
                     {
@@ -75,12 +75,20 @@ namespace FooSearchEngine.Classes
 
                             }
                             else if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "text")
-                                break; //We are only interested in the document title and it's text;
+                                break; // We are only interested in the document title and it's text;
 
                         }
                     }
-                    else if (reader.NodeType == XmlNodeType.Element && reader.Name == "codes"){
-                        //
+                    else if (reader.NodeType == XmlNodeType.Element && reader.Name == "codes" && reader.GetAttribute("class") == "bip:topics:1.0"){
+                        // Get the document label/class/topic
+                        while (reader.Read()){
+                                if (reader.NodeType == XmlNodeType.Element && reader.Name == "code")
+                                {
+                                    string topic = reader.GetAttribute("code");
+                                    document.Topic = topic;
+                                    break;
+                                }
+                            }
                     }
                 }
             }
@@ -92,7 +100,7 @@ namespace FooSearchEngine.Classes
 
             for (int i = size - 1; i >= 0; i--)
             {
-                rawWords[i] = Regex.Replace(rawWords[i], @"[\p{P}\d]", ""); //remove punctuation marks and numbers
+                rawWords[i] = Regex.Replace(rawWords[i], @"[\p{P}\p{S}\d]", ""); //remove unimportant symbols
 
                 if (this._stopWords.Contains(rawWords[i]))
                     rawWords.RemoveAt(i);
@@ -112,9 +120,6 @@ namespace FooSearchEngine.Classes
                         document.CheckWordFrequencyVector(this._globalVector.IndexOf(processedWord));
                 }
             }
-        }
-        public List<string> GetLabels(){
-            return null;
         }
     }
 }

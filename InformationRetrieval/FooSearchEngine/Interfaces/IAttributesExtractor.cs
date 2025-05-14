@@ -22,10 +22,5 @@ namespace FooSearchEngine.Interfaces
         /// Returns a list of parsed documents with updated frequency and global vectors.
         /// </returns>
         public List<Document> ParseDocuments(string[] inputFilesPaths, List<string> globalVector);
-        /// <summary>
-        /// Returns all of the labels (categories) found in the given XML files.
-        /// </summary>
-        /// <returns>List</returns>
-        public List<string> GetLabels();
     }
 }
