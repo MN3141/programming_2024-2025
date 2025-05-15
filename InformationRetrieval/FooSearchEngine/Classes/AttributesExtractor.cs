@@ -100,7 +100,7 @@ namespace FooSearchEngine.Classes
 
             for (int i = size - 1; i >= 0; i--)
             {
-                rawWords[i] = Regex.Replace(rawWords[i], @"[\p{P}\p{S}\d]", ""); //remove unimportant symbols
+                rawWords[i] = Regex.Replace(rawWords[i], @"[\p{P}\p{S}\d\t]", ""); //remove unimportant symbols
 
                 if (this._stopWords.Contains(rawWords[i]))
                     rawWords.RemoveAt(i);
