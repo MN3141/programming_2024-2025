@@ -10,11 +10,33 @@ namespace FooSearchEngine.Classes
     class AttributesPreprocessor: IAttributesPreprocessor
     {
         float _threshold;
-        string[] _labels;
+        public List<Document> _inputDocs { get; set; }
+        public List<string> _inputGlobalVector { get; set; }
+        public Dictionary<string,AttributeCounter> _attributeCount { get; set; }
 
         public AttributesPreprocessor(){
 
             this._threshold = 0.5f;
+            this._inputDocs = new List<Document>();
+            this._inputGlobalVector = new List<string>();
+            this._attributeCount = new Dictionary<string, AttributeCounter>();
+        }
+
+        /// <summary>
+        /// Determine where the attributes (do not) appear
+        /// in the given document set.
+        /// </summary>
+        private void ComputeAttributeCounters()
+        {
+            foreach (string attrib in this._inputGlobalVector){
+                foreach(Document doc in this._inputDocs){
+                    int attributeIndex = this._inputGlobalVector.IndexOf(attrib);
+                    if (doc.FrequencyVector.ContainsKey(attributeIndex)){
+                        //this._attributeCount.Add(attrib,)
+                    }
+                }
+            }
+
         }
 
         /// <summary>
@@ -25,7 +47,8 @@ namespace FooSearchEngine.Classes
         /// <param name="documents"></param>
         public void FilterAttributes(List<string> globalVector, List<Document> documents)
         {
-
+            this._inputGlobalVector = globalVector;
+            this._inputDocs = documents;
         }
 
         private float ComputeEntropy(){
