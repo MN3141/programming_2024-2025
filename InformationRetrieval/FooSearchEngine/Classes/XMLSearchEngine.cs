@@ -15,6 +15,7 @@ namespace FooSearchEngine.Classes
         List<Document> _documents;
         IAttributesExtractor _attributesExtractor;
         IAttributesPreprocessor _attributesPreprocessor;
+        IVectorNormalizer _vectorNormalizer;
 
         /// <summary>
         /// Constructor using files from a given directory
@@ -27,6 +28,7 @@ namespace FooSearchEngine.Classes
             this._documents = new List<Document>();
             this._attributesExtractor = new XMLExtractor(inputFilesDir);
             this._attributesPreprocessor = new AttributesPreprocessor();
+            this._vectorNormalizer = new VectorNormalizer();
         }
 
         /// <summary>
@@ -47,6 +49,14 @@ namespace FooSearchEngine.Classes
             this._documents = _attributesExtractor.GetDocuments();
             this._globalVector = _attributesExtractor.GetGlobalVector();
             this._attributesPreprocessor.FilterAttributes(this._globalVector, this._documents);
+            this._vectorNormalizer.NormalizeVectors();
+        }
+        private float ComputeDistance(Document doc0, Document doc1)
+        {
+            float distance = 0;
+            for (int i = 0; i < doc0.FrequencyVector.Count; i++)
+                distance += Math.Abs(doc0.FrequencyVector[i] - doc1.FrequencyVector[i]);
+            return distance;
         }
 
     }

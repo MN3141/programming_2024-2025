@@ -14,7 +14,7 @@ namespace FooSearchEngine.Classes
         public string FileName { get; set; }
         public string Title { get; set; }
         public string Topic { get; set; }
-        public Dictionary<int, int> FrequencyVector { get; set; }
+        public Dictionary<int, float> FrequencyVector { get; set; }
 
         /// <summary>
         /// fileName represents the
@@ -26,14 +26,14 @@ namespace FooSearchEngine.Classes
             this.FileName = fileName;
             this.Title = "FOO";
             this.Topic = "FOO topic";
-            this.FrequencyVector = new Dictionary<int, int>();
+            this.FrequencyVector = new Dictionary<int, float>();
         }
         public Document()
         {
             this.FileName = "Foo";
             this.Title = "FOO";
             this.Topic = "FOO topic";
-            this.FrequencyVector = new Dictionary<int, int>();
+            this.FrequencyVector = new Dictionary<int, float>();
         }
         /// <summary>
         /// Adds a new entry in frequency vector.
