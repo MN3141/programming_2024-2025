@@ -13,88 +13,46 @@ namespace FooSearchEngine.Classes
     /// <summary>
     /// Responsible for extracting relevant attributes from all given XML files.
     /// </summary>
-    public class AttributesExtractor : IAttributesExtractor
+    public abstract class AttributesExtractor : IAttributesExtractor
     {
-        List<string> _stopWords = new List<string>();
-        List<string> _gatheredLabels = new List<string>();
-        string stopWordsFile = Path.GetFullPath(
+        public List<string>? _globalVector;
+        public List<Document>? _documents;
+
+        protected List<string> _stopWords = new List<string>();
+        protected string stopWordsFile = Path.GetFullPath(
                                 Path.Combine(AppContext.BaseDirectory, @"..\..\..\Utils\stopwords.txt"));
-        List<string>? _globalVector;
-        private void SetStopWords(string filePath)
+        
+        /// <summary>
+        /// Instantiates internal global and frequency vectors.
+        /// </summary>
+        public AttributesExtractor()
+        {
+            this._globalVector = new List<string>();
+            this._documents = new List<Document>();
+        }
+        /// <summary>
+        /// Parses the givent data and sets the
+        /// global and frequency vectors.
+        /// </summary>
+        public abstract void ParseData();
+        /// <summary>
+        /// Sets the stop words used in filtering out
+        /// the attributes based on given input file.
+        /// </summary>
+        /// <param name="filePath"></param>
+        protected void SetStopWords(string filePath)
         {
             this._stopWords = new List<string>();
             foreach (string line in File.ReadLines(filePath))
                 this._stopWords.Add(line);
 
         }
-
         /// <summary>
-        /// Parse all of the given XML files for attributes.
+        /// Filters the raw extracted words.
         /// </summary>
-        /// <param name="inputFilesPaths"></param>
-        /// <param name="globalVector"></param>
-        /// <returns>
-        /// Returns a list of parsed documents with updated frequency and global vectors
-        /// and sets the values for global vector.
-        /// </returns>
-        public List<Document> ParseDocuments(string[] inputFilesPaths, List<string> globalVector)
-        {
-            this._globalVector = globalVector;
-            List<Document> parsedDocuments = new List<Document>();
-            SetStopWords(stopWordsFile);
-            for (int i = 0; i < inputFilesPaths.Length; i++)
-            {
-                Document document = new Document(inputFilesPaths[i]);
-                this.ParseDocument(document);
-                parsedDocuments.Add(document);
-            }
-            return parsedDocuments;
-        }
-
-        private void ParseDocument(Document document)
-        {
-            using (XmlReader reader = XmlReader.Create(document.FileName))
-            {
-                while (reader.Read())
-                {
-                    if (reader.NodeType == XmlNodeType.Element && reader.Name == "title")
-                    {
-                        reader.Read(); // Move to the text node (inside <title>)
-                        document.Title = reader.Value;
-                    }
-                    else if (reader.NodeType == XmlNodeType.Element && reader.Name == "text")
-                    {
-                        while (reader.Read())
-                        {
-                            // Check for the <p> tags inside <text>
-                            if (reader.NodeType == XmlNodeType.Element && reader.Name == "p")
-                            {
-                                string paragraph = reader.ReadElementContentAsString();
-                                List<string> rawWords = paragraph.ToLower().Split(" ").ToList();
-                                FilterList(ref rawWords, ref document);
-
-                            }
-                            else if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "text")
-                                break; // We are only interested in the document title and it's text;
-
-                        }
-                    }
-                    else if (reader.NodeType == XmlNodeType.Element && reader.Name == "codes" && reader.GetAttribute("class") == "bip:topics:1.0"){
-                        // Get the document label/class/topic
-                        while (reader.Read()){
-                                if (reader.NodeType == XmlNodeType.Element && reader.Name == "code")
-                                {
-                                    string topic = reader.GetAttribute("code");
-                                    document.Topic = topic;
-                                    break;
-                                }
-                            }
-                    }
-                }
-            }
-        }
-
-        private void FilterList(ref List<string> rawWords, ref Document document)
+        /// <param name="rawWords"></param>
+        /// <param name="document"></param>
+        protected void FilterList(List<string> rawWords, Document document)
         {
             int size = rawWords.Count;
 
@@ -120,6 +78,14 @@ namespace FooSearchEngine.Classes
                         document.CheckWordFrequencyVector(this._globalVector.IndexOf(processedWord));
                 }
             }
+        }
+        public List<Document> GetDocuments()
+        {
+            return this._documents;
+        }
+        public List<string> GetGlobalVector()
+        {
+            return this._globalVector;
         }
     }
 }

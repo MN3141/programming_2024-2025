@@ -15,12 +15,14 @@ namespace FooSearchEngine.Interfaces
     public interface IAttributesExtractor
     {
         /// <summary>
-        /// Parse all of the given XML files for attributes.
+        /// Parse the given data into Document format and builds a
+        /// global vector based on it.
         /// </summary>
-        /// <param name="inputFilesPaths"></param>
         /// <returns>
-        /// Returns a list of parsed documents with updated frequency and global vectors.
+        /// void
         /// </returns>
-        public List<Document> ParseDocuments(string[] inputFilesPaths, List<string> globalVector);
+        public void ParseData();
+        public List<Document> GetDocuments();
+        public List<string> GetGlobalVector();
     }
 }

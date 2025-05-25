@@ -28,7 +28,13 @@ namespace FooSearchEngine.Classes
             this.Topic = "FOO topic";
             this.FrequencyVector = new Dictionary<int, int>();
         }
-
+        public Document()
+        {
+            this.FileName = "Foo";
+            this.Title = "FOO";
+            this.Topic = "FOO topic";
+            this.FrequencyVector = new Dictionary<int, int>();
+        }
         /// <summary>
         /// Adds a new entry in frequency vector.
         /// </summary>

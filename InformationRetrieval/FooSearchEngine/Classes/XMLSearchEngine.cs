@@ -10,7 +10,6 @@ namespace FooSearchEngine.Classes
     class XMLSearchEngine
     {
         string[] _inputFilesPaths;
-        string _outputDir;
         List<string> _globalVector;
         List<string> _labels;
         List<Document> _documents;
@@ -25,9 +24,8 @@ namespace FooSearchEngine.Classes
         {
             this._inputFilesPaths = Directory.GetFiles(inputFilesDir);
             this._globalVector = new List<string>();
-            this._outputDir = "output";
             this._documents = new List<Document>();
-            this._attributesExtractor = new AttributesExtractor();
+            this._attributesExtractor = new XMLExtractor(inputFilesDir);
             this._attributesPreprocessor = new AttributesPreprocessor();
         }
 
@@ -39,25 +37,16 @@ namespace FooSearchEngine.Classes
         {
             this._inputFilesPaths = inputFilesPaths;
             this._globalVector = new List<string>();
-            this._outputDir = "output";
             this._documents = new List<Document>();
-            this._attributesExtractor = new AttributesExtractor();
+            this._attributesExtractor = new XMLExtractor(inputFilesPaths);
         }
 
         public void Search()
         {
-            this._documents = this._attributesExtractor.ParseDocuments(this._inputFilesPaths, this._globalVector);
+            this._attributesExtractor.ParseData();
+            this._documents = _attributesExtractor.GetDocuments();
+            this._globalVector = _attributesExtractor.GetGlobalVector();
             this._attributesPreprocessor.FilterAttributes(this._globalVector, this._documents);
-        }
-
-        public void SetOutputDir(string dirPath)
-        {
-            if (!Directory.Exists(dirPath))
-            {
-                Directory.CreateDirectory(dirPath);
-            }
-
-            this._outputDir = dirPath;
         }
 
     }
