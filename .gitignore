@@ -17,3 +17,6 @@ ComputerArch/*/*.obj
 ComputerArch/*/*.txt
 ComputerArch/*/*.tr
 ComputerArch/*/*.td
+
+# Artificial Intelligence
+AI/opencv/assets/*
