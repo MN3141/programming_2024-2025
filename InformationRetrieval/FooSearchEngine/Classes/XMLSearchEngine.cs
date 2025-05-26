@@ -23,12 +23,12 @@ namespace FooSearchEngine.Classes
         /// <param name="inputFilesDir"></param>
         public XMLSearchEngine(string inputFilesDir)
         {
-            this._inputFilesPaths = Directory.GetFiles(inputFilesDir);
-            this._globalVector = new List<string>();
-            this._documents = new List<Document>();
-            this._attributesExtractor = new XMLExtractor(inputFilesDir);
-            this._attributesPreprocessor = new AttributesPreprocessor();
-            this._vectorNormalizer = new VectorNormalizer();
+            _inputFilesPaths = Directory.GetFiles(inputFilesDir);
+            _globalVector = new List<string>();
+            _documents = new List<Document>();
+            _attributesExtractor = new XMLExtractor(inputFilesDir);
+            _attributesPreprocessor = new AttributesPreprocessor();
+            _vectorNormalizer = new VectorNormalizer();
         }
 
         /// <summary>
@@ -37,19 +37,40 @@ namespace FooSearchEngine.Classes
         /// <param name="inputFilesPaths"></param>
         public XMLSearchEngine(string[] inputFilesPaths)
         {
-            this._inputFilesPaths = inputFilesPaths;
-            this._globalVector = new List<string>();
-            this._documents = new List<Document>();
-            this._attributesExtractor = new XMLExtractor(inputFilesPaths);
+            _inputFilesPaths = inputFilesPaths;
+            _globalVector = new List<string>();
+            _documents = new List<Document>();
+            _attributesExtractor = new XMLExtractor(inputFilesPaths);
+            _attributesPreprocessor = new AttributesPreprocessor();
+            _vectorNormalizer = new VectorNormalizer();
         }
-
-        public void Search()
+        public Dictionary<string,float> Search(List<string> query)
         {
-            this._attributesExtractor.ParseData();
-            this._documents = _attributesExtractor.GetDocuments();
-            this._globalVector = _attributesExtractor.GetGlobalVector();
-            this._attributesPreprocessor.FilterAttributes(this._globalVector, this._documents);
-            this._vectorNormalizer.NormalizeVectors();
+            List<Document> queryDoc = new List<Document>();
+            Dictionary<Document, float> distances = new Dictionary<Document, float>();
+
+            _attributesExtractor.ParseData();
+            _documents = _attributesExtractor.GetDocuments();
+
+            _globalVector = _attributesExtractor.GetGlobalVector();
+            _attributesPreprocessor.FilterAttributes(_globalVector, _documents);
+
+            _attributesExtractor = new TXTExtractor(query);
+            _attributesExtractor.ParseData();
+            queryDoc = _attributesExtractor.GetDocuments();
+            _vectorNormalizer.NormalizeVectors(_globalVector, _documents);
+            _vectorNormalizer.NormalizeVectors(_globalVector, queryDoc);
+
+            foreach (Document doc in _documents)
+            {
+                distances.Add(doc, ComputeDistance(doc, queryDoc[0]));
+            }
+            var sortedResults = distances.OrderBy(pair => pair.Value).ToList();
+            Dictionary<string, float> topResults = new Dictionary<string, float>();
+            for (int i = 0; i < 3; i++)
+                topResults.Add(sortedResults[i].Key.FileName, sortedResults[i].Value);
+
+            return topResults;
         }
         private float ComputeDistance(Document doc0, Document doc1)
         {

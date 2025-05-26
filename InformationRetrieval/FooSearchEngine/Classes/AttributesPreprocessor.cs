@@ -19,10 +19,10 @@ namespace FooSearchEngine.Classes
         public AttributesPreprocessor()
         {
 
-            this._threshold = 0.5f;
-            this._inputDocs = new List<Document>();
-            this._inputGlobalVector = new List<string>();
-            this._documentSetWeights = new List<int>();
+            _threshold = 0.5f;
+            _inputDocs = new List<Document>();
+            _inputGlobalVector = new List<string>();
+            _documentSetWeights = new List<int>();
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace FooSearchEngine.Classes
         {
             Dictionary<string, int> topicsCounter = new Dictionary<string, int>();
 
-            foreach (Document doc in this._inputDocs)
+            foreach (Document doc in _inputDocs)
             {
                 if (topicsCounter.ContainsKey(doc.Topic))
                     topicsCounter[doc.Topic]++;
@@ -51,16 +51,16 @@ namespace FooSearchEngine.Classes
         /// <param name="documents"></param>
         public void FilterAttributes(List<string> globalVector, List<Document> documents)
         {
-            this._inputGlobalVector = globalVector;
-            this._inputDocs = documents;
-            this._sampleSize = this._inputDocs.Count;
+            _inputGlobalVector = globalVector;
+            _inputDocs = documents;
+            _sampleSize = _inputDocs.Count;
 
-            this._documentSetWeights = this.CountTopics();
-            this._wholeEntropy = this.ComputeEntropy(this._documentSetWeights);
+            _documentSetWeights = CountTopics();
+            _wholeEntropy = ComputeEntropy(_documentSetWeights);
 
-            foreach (string attrib in this._inputGlobalVector)
+            foreach (string attrib in _inputGlobalVector)
             {
-                double infoGain = this.ComputeInformationGain(attrib);
+                double infoGain = ComputeInformationGain(attrib);
                 //Console.WriteLine(attrib + " "+infoGain);
             }
         }
@@ -77,7 +77,7 @@ namespace FooSearchEngine.Classes
 
             for (int i = 0; i < set.Count; i++)
             {
-                double probability = (double)set[i] / this._sampleSize;
+                double probability = (double)set[i] / _sampleSize;
                 entropyValue -= (probability * Math.Log(probability) * 1.4426950408889634);
             }
 
@@ -98,9 +98,9 @@ namespace FooSearchEngine.Classes
             double entropyPresent = 0;
             double entropyMissing = 0;
 
-            foreach (Document doc in this._inputDocs)
+            foreach (Document doc in _inputDocs)
             {
-                int attribIndex = this._inputGlobalVector.IndexOf(attribute);
+                int attribIndex = _inputGlobalVector.IndexOf(attribute);
 
                 if (doc.FrequencyVector.ContainsKey(attribIndex))
                 {
@@ -116,11 +116,11 @@ namespace FooSearchEngine.Classes
                 }
             }
 
-            entropyPresent = this.ComputeEntropy(counterPresent.Values.ToList());
-            entropyMissing = this.ComputeEntropy(counterMissing.Values.ToList());
+            entropyPresent = ComputeEntropy(counterPresent.Values.ToList());
+            entropyMissing = ComputeEntropy(counterMissing.Values.ToList());
 
-            infoGain = this._wholeEntropy - (counterPresent.Values.Sum() / this._sampleSize) * entropyPresent
-                     - (counterMissing.Values.Sum() / this._sampleSize) * entropyMissing;
+            infoGain = _wholeEntropy - (counterPresent.Values.Sum() / _sampleSize) * entropyPresent
+                     - (counterMissing.Values.Sum() / _sampleSize) * entropyMissing;
 
             return infoGain;
         }

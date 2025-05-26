@@ -27,10 +27,10 @@ namespace FooSearchEngine.Classes
             for (int i = 0; i < XMLFilesPaths.Length; i++)
             {
                 Document document = new Document(XMLFilesPaths[i]);
-                this.ParseXMLFile(document);
+                ParseXMLFile(document);
                 parsedDocuments.Add(document);
             }
-            this._documents = parsedDocuments;
+            _documents = parsedDocuments;
         }
         private void ParseXMLFile(Document doc)
         {

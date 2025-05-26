@@ -7,28 +7,44 @@ using FooSearchEngine.Interfaces;
 
 namespace FooSearchEngine.Classes
 {
-    class VectorNormalizer : IVectorNormalizer
+    public class VectorNormalizer : IVectorNormalizer
     {
         private List<Document> _docs;
+        private List<string> _globalVector;
 
-        public VectorNormalizer() {
-            this._docs = new List<Document>();
+        public VectorNormalizer()
+        {
+            _globalVector = new List<string>();
+            _docs = new List<Document>();
         }
         public List<Document> GetDocuments()
         {
-            return this._docs;
+            return _docs;
         }
 
-        public void NormalizeVectors()
+        /// <summary>
+        /// Normalizes the given vector by
+        /// computing the frequency and getting the
+        /// frequency vector at the same lenght as
+        /// the global one.
+        /// </summary>
+        public void NormalizeVectors(List<string> globalVector, List<Document> docs)
         {
-            foreach (Document doc in this._docs)
+            _globalVector = globalVector;
+            _docs = docs;
+            foreach (Document doc in _docs)
                 NormalizeFunction(doc.FrequencyVector);
         }
         private void NormalizeFunction(Dictionary<int, float> freqVector) {
 
-            for (int i = 0; i < freqVector.Count; i++)
+            foreach (string attrib in _globalVector)
             {
-                freqVector[i] = (float)(1 + Math.Log(1 + Math.Log(freqVector[i])));
+                int wordIndex = _globalVector.IndexOf(attrib);
+
+                if (freqVector.ContainsKey(wordIndex))
+                    freqVector[wordIndex] = (float)(1 + Math.Log(1 + Math.Log(freqVector[wordIndex])));
+                else
+                    freqVector.Add(wordIndex, 0);
             }
         }
     }

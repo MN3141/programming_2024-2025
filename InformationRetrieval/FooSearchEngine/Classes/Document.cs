@@ -23,17 +23,17 @@ namespace FooSearchEngine.Classes
         /// <param name="fileName"></param>
         public Document(string fileName)
         {
-            this.FileName = fileName;
-            this.Title = "FOO";
-            this.Topic = "FOO topic";
-            this.FrequencyVector = new Dictionary<int, float>();
+            FileName = fileName;
+            Title = "FOO";
+            Topic = "FOO topic";
+            FrequencyVector = new Dictionary<int, float>();
         }
         public Document()
         {
-            this.FileName = "Foo";
-            this.Title = "FOO";
-            this.Topic = "FOO topic";
-            this.FrequencyVector = new Dictionary<int, float>();
+            FileName = "Foo";
+            Title = "FOO";
+            Topic = "FOO topic";
+            FrequencyVector = new Dictionary<int, float>();
         }
         /// <summary>
         /// Adds a new entry in frequency vector.
@@ -41,7 +41,7 @@ namespace FooSearchEngine.Classes
         /// <param name="wordIndex"></param>
         public void AddNewEntry(int wordIndex)
         {
-            this.FrequencyVector.Add(wordIndex, 1);
+            FrequencyVector.Add(wordIndex, 1);
         }
 
         /// <summary>
@@ -51,8 +51,8 @@ namespace FooSearchEngine.Classes
         public void CheckWordFrequencyVector(int wordIndex)
         {
 
-            if (this.FrequencyVector.ContainsKey(wordIndex))
-                this.FrequencyVector[wordIndex] += 1;
+            if (FrequencyVector.ContainsKey(wordIndex))
+                FrequencyVector[wordIndex] += 1;
         }
 
     }

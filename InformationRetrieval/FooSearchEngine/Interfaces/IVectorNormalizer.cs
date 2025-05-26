@@ -4,12 +4,13 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using Document = FooSearchEngine.Classes.Document;
 
 namespace FooSearchEngine.Interfaces
 {
-    interface IVectorNormalizer
+    public interface IVectorNormalizer
     {
-        public void NormalizeVectors();
+        public void NormalizeVectors(List<string> globalVector, List<Document> docs);
         public List<Document> GetDocuments();
     }
 }

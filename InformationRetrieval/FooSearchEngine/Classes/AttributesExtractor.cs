@@ -21,14 +21,14 @@ namespace FooSearchEngine.Classes
         protected List<string> _stopWords = new List<string>();
         protected string stopWordsFile = Path.GetFullPath(
                                 Path.Combine(AppContext.BaseDirectory, @"..\..\..\Utils\stopwords.txt"));
-        
+
         /// <summary>
         /// Instantiates internal global and frequency vectors.
         /// </summary>
         public AttributesExtractor()
         {
-            this._globalVector = new List<string>();
-            this._documents = new List<Document>();
+            _globalVector = new List<string>();
+            _documents = new List<Document>();
         }
         /// <summary>
         /// Parses the givent data and sets the
@@ -42,9 +42,9 @@ namespace FooSearchEngine.Classes
         /// <param name="filePath"></param>
         protected void SetStopWords(string filePath)
         {
-            this._stopWords = new List<string>();
+            _stopWords = new List<string>();
             foreach (string line in File.ReadLines(filePath))
-                this._stopWords.Add(line);
+                _stopWords.Add(line);
 
         }
         /// <summary>
@@ -60,32 +60,32 @@ namespace FooSearchEngine.Classes
             {
                 rawWords[i] = Regex.Replace(rawWords[i], @"[\p{P}\p{S}\d\t]", ""); //remove unimportant symbols
 
-                if (this._stopWords.Contains(rawWords[i]))
+                if (_stopWords.Contains(rawWords[i]))
                     rawWords.RemoveAt(i);
                 else
                 {
                     PorterStemmer porterStemmer = new PorterStemmer();
                     string processedWord = porterStemmer.StemWord(rawWords[i]);
 
-                    if (!this._globalVector.Contains(processedWord))
+                    if (!_globalVector.Contains(processedWord))
                     {
-                        this._globalVector.Add(processedWord);
+                        _globalVector.Add(processedWord);
 
-                        document.AddNewEntry(this._globalVector.IndexOf(processedWord));
+                        document.AddNewEntry(_globalVector.IndexOf(processedWord));
                     }
 
                     else
-                        document.CheckWordFrequencyVector(this._globalVector.IndexOf(processedWord));
+                        document.CheckWordFrequencyVector(_globalVector.IndexOf(processedWord));
                 }
             }
         }
         public List<Document> GetDocuments()
         {
-            return this._documents;
+            return _documents;
         }
         public List<string> GetGlobalVector()
         {
-            return this._globalVector;
+            return _globalVector;
         }
     }
 }

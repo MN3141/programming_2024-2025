@@ -18,8 +18,8 @@ namespace FooSearchEngine.Classes
         public override void ParseData()
         {
             Document queryDoc = new Document();
-            FilterList(query, queryDoc);
-
+            FilterList(query,queryDoc);
+            _documents.Add(queryDoc);
         }
     }
 }

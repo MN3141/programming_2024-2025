@@ -15,7 +15,9 @@ namespace MyApp
             //string inputDir = Path.GetFullPath(appDir + "\\..\\Reuters_7083");
 
             XMLSearchEngine google = new XMLSearchEngine(inputDir);
-            google.Search();
+            List<string> query = new List<string>();
+            query.Add("Foo");
+            google.Search(query);
         }
     }
 }
