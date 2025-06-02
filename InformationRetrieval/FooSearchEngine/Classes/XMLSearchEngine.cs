@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+
 
 namespace FooSearchEngine.Classes
 {
@@ -13,6 +15,7 @@ namespace FooSearchEngine.Classes
         List<string> _globalVector;
         List<string> _labels;
         List<Document> _documents;
+        Stopwatch _stopwatch;
         IAttributesExtractor _attributesExtractor;
         IAttributesPreprocessor _attributesPreprocessor;
         IVectorNormalizer _vectorNormalizer;
@@ -29,6 +32,8 @@ namespace FooSearchEngine.Classes
             _attributesExtractor = new XMLExtractor(inputFilesDir);
             _attributesPreprocessor = new AttributesPreprocessor();
             _vectorNormalizer = new VectorNormalizer();
+            _stopwatch = new Stopwatch();
+
         }
 
         /// <summary>
@@ -43,18 +48,28 @@ namespace FooSearchEngine.Classes
             _attributesExtractor = new XMLExtractor(inputFilesPaths);
             _attributesPreprocessor = new AttributesPreprocessor();
             _vectorNormalizer = new VectorNormalizer();
+            _stopwatch = new Stopwatch();
         }
         public Dictionary<string,float> Search(List<string> query)
         {
             List<Document> queryDoc = new List<Document>();
             Dictionary<Document, float> distances = new Dictionary<Document, float>();
 
+            _stopwatch.Start();
+
             _attributesExtractor.ParseData();
             _documents = _attributesExtractor.GetDocuments();
-
             _globalVector = _attributesExtractor.GetGlobalVector();
-            _attributesPreprocessor.FilterAttributes(_globalVector, _documents);
 
+            _stopwatch.Stop();
+            Console.WriteLine("XML extraction took {0} minutes, {1} seconds and {2} miliseconds.", _stopwatch.Elapsed.Minutes, _stopwatch.Elapsed.Seconds,_stopwatch.Elapsed.Milliseconds);
+
+            _stopwatch.Start();
+            _attributesPreprocessor.FilterAttributes(_globalVector, _documents);
+            _stopwatch.Stop();
+            Console.WriteLine("Vector filtering took {0} minutes, {1} seconds and {2} miliseconds.", _stopwatch.Elapsed.Minutes, _stopwatch.Elapsed.Seconds, _stopwatch.Elapsed.Milliseconds);
+
+            _stopwatch.Start();
             _attributesExtractor = new TXTExtractor(query);
             _attributesExtractor.ParseData();
             queryDoc = _attributesExtractor.GetDocuments();
@@ -70,6 +85,8 @@ namespace FooSearchEngine.Classes
             for (int i = 0; i < 3; i++)
                 topResults.Add(sortedResults[i].Key.FileName, sortedResults[i].Value);
 
+            _stopwatch.Stop();
+            Console.WriteLine("Query processing took {0} minutes, {1} seconds and {2} miliseconds.", _stopwatch.Elapsed.Minutes, _stopwatch.Elapsed.Seconds, _stopwatch.Elapsed.Milliseconds);
             return topResults;
         }
         private float ComputeDistance(Document doc0, Document doc1)
