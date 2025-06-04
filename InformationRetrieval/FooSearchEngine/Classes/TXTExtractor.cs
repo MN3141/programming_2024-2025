@@ -10,9 +10,9 @@ namespace FooSearchEngine.Classes
     {
         List<string> query;
 
-        public TXTExtractor(List<string> query)
+        public TXTExtractor(string query)
         {
-            this.query = query;
+            this.query = query.Split(" ").ToList();
         }
 
         public override void ParseData()

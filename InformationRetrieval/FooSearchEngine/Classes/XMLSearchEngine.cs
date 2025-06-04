@@ -15,6 +15,8 @@ namespace FooSearchEngine.Classes
         List<string> _globalVector;
         List<string> _labels;
         List<Document> _documents;
+        List<Document> _queryDoc = new List<Document>();
+        Dictionary<Document, float> _distances = new Dictionary<Document, float>();
         Stopwatch _stopwatch;
         IAttributesExtractor _attributesExtractor;
         IAttributesPreprocessor _attributesPreprocessor;
@@ -34,6 +36,25 @@ namespace FooSearchEngine.Classes
             _vectorNormalizer = new VectorNormalizer();
             _stopwatch = new Stopwatch();
 
+            _stopwatch.Start();
+
+            _attributesExtractor.ParseData();
+            _documents = _attributesExtractor.GetDocuments();
+            _globalVector = _attributesExtractor.GetGlobalVector();
+
+            _stopwatch.Stop();
+            Console.WriteLine("XML extraction took {0} minutes, {1} seconds and {2} miliseconds.", _stopwatch.Elapsed.Minutes, _stopwatch.Elapsed.Seconds, _stopwatch.Elapsed.Milliseconds);
+
+            _stopwatch.Start();
+            _attributesPreprocessor.FilterAttributes(_globalVector, _documents);
+            _stopwatch.Stop();
+            Console.WriteLine("Vector filtering took {0} minutes, {1} seconds and {2} miliseconds.", _stopwatch.Elapsed.Minutes, _stopwatch.Elapsed.Seconds, _stopwatch.Elapsed.Milliseconds);
+
+            _stopwatch.Start();
+            _vectorNormalizer.NormalizeVectors(_globalVector, _documents);
+            _stopwatch.Stop();
+            Console.WriteLine("Vector normalization took {0} minutes, {1} seconds and {2} miliseconds.", _stopwatch.Elapsed.Minutes, _stopwatch.Elapsed.Seconds, _stopwatch.Elapsed.Milliseconds);
+
         }
 
         /// <summary>
@@ -49,11 +70,6 @@ namespace FooSearchEngine.Classes
             _attributesPreprocessor = new AttributesPreprocessor();
             _vectorNormalizer = new VectorNormalizer();
             _stopwatch = new Stopwatch();
-        }
-        public Dictionary<string,float> Search(List<string> query)
-        {
-            List<Document> queryDoc = new List<Document>();
-            Dictionary<Document, float> distances = new Dictionary<Document, float>();
 
             _stopwatch.Start();
 
@@ -62,7 +78,7 @@ namespace FooSearchEngine.Classes
             _globalVector = _attributesExtractor.GetGlobalVector();
 
             _stopwatch.Stop();
-            Console.WriteLine("XML extraction took {0} minutes, {1} seconds and {2} miliseconds.", _stopwatch.Elapsed.Minutes, _stopwatch.Elapsed.Seconds,_stopwatch.Elapsed.Milliseconds);
+            Console.WriteLine("XML extraction took {0} minutes, {1} seconds and {2} miliseconds.", _stopwatch.Elapsed.Minutes, _stopwatch.Elapsed.Seconds, _stopwatch.Elapsed.Milliseconds);
 
             _stopwatch.Start();
             _attributesPreprocessor.FilterAttributes(_globalVector, _documents);
@@ -70,30 +86,44 @@ namespace FooSearchEngine.Classes
             Console.WriteLine("Vector filtering took {0} minutes, {1} seconds and {2} miliseconds.", _stopwatch.Elapsed.Minutes, _stopwatch.Elapsed.Seconds, _stopwatch.Elapsed.Milliseconds);
 
             _stopwatch.Start();
+            _vectorNormalizer.NormalizeVectors(_globalVector, _documents);
+            _stopwatch.Stop();
+            Console.WriteLine("Vector normalization took {0} minutes, {1} seconds and {2} miliseconds.", _stopwatch.Elapsed.Minutes, _stopwatch.Elapsed.Seconds, _stopwatch.Elapsed.Milliseconds);
+
+        }
+        public void Search(string query)
+        {
+            _queryDoc.Clear();
+            _distances.Clear();
+
+            _stopwatch.Start();
             _attributesExtractor = new TXTExtractor(query);
             _attributesExtractor.ParseData();
-            queryDoc = _attributesExtractor.GetDocuments();
-            _vectorNormalizer.NormalizeVectors(_globalVector, _documents);
-            _vectorNormalizer.NormalizeVectors(_globalVector, queryDoc);
+            _queryDoc = _attributesExtractor.GetDocuments();
+            _vectorNormalizer.NormalizeVectors(_globalVector, _queryDoc);
 
             foreach (Document doc in _documents)
             {
-                distances.Add(doc, ComputeDistance(doc, queryDoc[0]));
+                _distances.Add(doc, ComputeDistance(doc, _queryDoc[0]));
             }
-            var sortedResults = distances.OrderBy(pair => pair.Value).ToList();
+            var sortedResults = _distances.OrderBy(pair => pair.Value).ToList();
             Dictionary<string, float> topResults = new Dictionary<string, float>();
             for (int i = 0; i < 3; i++)
-                topResults.Add(sortedResults[i].Key.FileName, sortedResults[i].Value);
+                Console.WriteLine("{0} : {1}",sortedResults[i].Key.FileName, sortedResults[i].Value);
 
             _stopwatch.Stop();
             Console.WriteLine("Query processing took {0} minutes, {1} seconds and {2} miliseconds.", _stopwatch.Elapsed.Minutes, _stopwatch.Elapsed.Seconds, _stopwatch.Elapsed.Milliseconds);
-            return topResults;
         }
         private float ComputeDistance(Document doc0, Document doc1)
         {
             float distance = 0;
-            for (int i = 0; i < doc0.FrequencyVector.Count; i++)
-                distance += Math.Abs(doc0.FrequencyVector[i] - doc1.FrequencyVector[i]);
+            foreach (int key in doc0.FrequencyVector.Keys)
+                {
+                    if (doc1.FrequencyVector.ContainsKey(key))
+                        distance += Math.Abs(doc0.FrequencyVector[key] - doc1.FrequencyVector[key]);
+                    else
+                        distance += Math.Abs(doc0.FrequencyVector[key]);
+                }
             return distance;
         }
 

@@ -32,20 +32,25 @@ namespace FooSearchEngine.Classes
         {
             _globalVector = globalVector;
             _docs = docs;
-            foreach (Document doc in _docs)
-                NormalizeFunction(doc.FrequencyVector);
-        }
-        private void NormalizeFunction(Dictionary<int, float> freqVector) {
-
-            foreach (string attrib in _globalVector)
+            Dictionary<string, int> attributeIndexMap = new Dictionary<string, int>();
+            for (int i = 0; i < _globalVector.Count; i++)
             {
-                int wordIndex = _globalVector.IndexOf(attrib);
-
-                if (freqVector.ContainsKey(wordIndex))
-                    freqVector[wordIndex] = (float)(1 + Math.Log(1 + Math.Log(freqVector[wordIndex])));
-                else
-                    freqVector.Add(wordIndex, 0);
+                attributeIndexMap[_globalVector[i]] = i;
             }
+            foreach (Document doc in _docs)
+                NormalizeFunction(doc.FrequencyVector,attributeIndexMap);
+        }
+        private void NormalizeFunction(Dictionary<int, float> freqVector, Dictionary<string, int> attributeIndexMap) {
+
+            foreach (var pair in attributeIndexMap)
+                {
+                    int wordIndex = pair.Value;
+
+                    if (freqVector.ContainsKey(wordIndex))
+                        freqVector[wordIndex] = 1;
+                    else
+                        freqVector[wordIndex] = 0;
+                }
         }
     }
 }
