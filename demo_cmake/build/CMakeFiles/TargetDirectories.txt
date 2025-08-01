@@ -1,0 +1,4 @@
+C:/Arhiva_ULBS/Proiecte/Anul_III/programming_2024-2025/demo_cmake/build/CMakeFiles/demo_cmake.dir
+C:/Arhiva_ULBS/Proiecte/Anul_III/programming_2024-2025/demo_cmake/build/CMakeFiles/run.dir
+C:/Arhiva_ULBS/Proiecte/Anul_III/programming_2024-2025/demo_cmake/build/CMakeFiles/edit_cache.dir
+C:/Arhiva_ULBS/Proiecte/Anul_III/programming_2024-2025/demo_cmake/build/CMakeFiles/rebuild_cache.dir

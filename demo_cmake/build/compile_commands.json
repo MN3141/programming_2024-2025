@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/Arhiva_ULBS/Proiecte/Anul_III/programming_2024-2025/demo_cmake/build",
+  "command": "C:/tools/MSYS2/ucrt64/bin/gcc.exe  @CMakeFiles/demo_cmake.dir/includes_C.rsp -g -std=gnu99 -o CMakeFiles/demo_cmake.dir/src/main.c.obj -c C:/Arhiva_ULBS/Proiecte/Anul_III/programming_2024-2025/demo_cmake/src/main.c",
+  "file": "C:/Arhiva_ULBS/Proiecte/Anul_III/programming_2024-2025/demo_cmake/src/main.c",
+  "output": "CMakeFiles/demo_cmake.dir/src/main.c.obj"
+}
+]
