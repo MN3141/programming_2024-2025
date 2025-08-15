@@ -36,4 +36,4 @@ jobs:
       - name: Upload release
         uses: ncipollo/release-action@v1
         with:
-           artifacts: $TO_ARCHIVE.zip
+           artifacts: ${{ env.TO_ARCHIVE }}.zip
